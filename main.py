@@ -2,10 +2,9 @@ import tkinter as tk
 from configparser import ConfigParser
 
 
-def load_colors():
-    config = ConfigParser()
-    config.read('settings.ini')
-    return config["colors"]
+config = ConfigParser()
+config.read('settings.ini')
+reliefs = config.get('styles', 'relief').split(', ')
 
 
 class ScriptSculptorApp:
@@ -13,7 +12,7 @@ class ScriptSculptorApp:
         self.master = master
         master.title("ScriptSculptor")
         master.configure(bg="black")
-        self.colors = load_colors()
+        self.colors = config["colors"]
 
         window_width = 800
         window_height = 600
@@ -31,6 +30,9 @@ class ScriptSculptorApp:
         deleteFrameButton = tk.Button(buttons_frame, text="Delete Frame", command=self.deleteFrame)
         deleteFrameButton.pack(side=tk.LEFT, padx=5)
 
+        reliefFrameButton = tk.Button(buttons_frame, text="Change Style", command=self.changeStyle)
+        reliefFrameButton.pack(side=tk.LEFT, padx=5)
+
         buttons_frame.pack(anchor="nw", pady=5, padx=5)
 
         # Use a class variable to keep track of the selected frame
@@ -42,19 +44,37 @@ class ScriptSculptorApp:
         self.createNewFrame()
         self.createNewFrame()
 
+
     def deleteFrame(self):
+        return
+
+    def changeStyle(self):
+        counter = config.getint('styles', 'relief_counter')
+        if counter == 4:
+            counter = -1
+        counter = counter + 1
+
+        # Update the value of relief_counter
+        config.set('styles', 'relief_counter', str(counter))
+        relief = reliefs[counter]
+
+        for child in self.master.winfo_children():
+            # Check if the child is a frame
+            if isinstance(child, tk.Frame):
+                child.configure(relief=relief)
         return
 
     def createNewFrame(self):
         # Method to add a new frame dynamically
-        newFrame = tk.Label(self.master, borderwidth=1, relief="solid", background=self.colors["script_frame"])
+        newFrame = tk.Frame(self.master, borderwidth=1, relief="solid", background=self.colors["script_frame"])
         newFrame.pack(pady=5, padx=5, fill="x")
 
-        newButton = tk.Button(newFrame, text="test button")
+        newButton = tk.Button(newFrame, text="Placeholder button")
+
         newButton.pack()
 
         # Example: Add a label to the new frame
-        label = tk.Label(newFrame, text="I want to", padx=10)
+        label = tk.Label(newFrame, text="Placeholder label", padx=10)
         label.pack(side=tk.LEFT)
 
         # Bind click event to the frame
