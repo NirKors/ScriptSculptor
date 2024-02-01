@@ -1,4 +1,11 @@
 import tkinter as tk
+from configparser import ConfigParser
+
+
+def load_colors():
+    config = ConfigParser()
+    config.read('settings.ini')
+    return config["colors"]
 
 
 class ScriptSculptorApp:
@@ -6,6 +13,7 @@ class ScriptSculptorApp:
         self.master = master
         master.title("ScriptSculptor")
         master.configure(bg="black")
+        self.colors = load_colors()
 
         window_width = 800
         window_height = 600
@@ -15,7 +23,7 @@ class ScriptSculptorApp:
         y_coordinate = (screen_height - window_height) // 2
         master.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
-        buttons_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background="red")
+        buttons_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background=self.colors["buttons_frame"])
 
         newFrameButton = tk.Button(buttons_frame, text="Add New Frame", command=self.createNewFrame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
@@ -28,7 +36,7 @@ class ScriptSculptorApp:
         # Use a class variable to keep track of the selected frame
         self.selected_frame = None
 
-        scriptFrame = tk.Label(self.master, borderwidth=2, relief="solid", background="blue")
+        scriptFrame = tk.Label(self.master, borderwidth=2, relief="solid", background=self.colors["script_frame"])
         scriptFrame.pack(expand=True, fill="both")
 
         self.createNewFrame()
@@ -39,7 +47,7 @@ class ScriptSculptorApp:
 
     def createNewFrame(self):
         # Method to add a new frame dynamically
-        newFrame = tk.Label(self.master, borderwidth=1, relief="solid", background="red")
+        newFrame = tk.Label(self.master, borderwidth=1, relief="solid", background=self.colors["script_frame"])
         newFrame.pack(pady=5, padx=5, fill="x")
 
         newButton = tk.Button(newFrame, text="test button")
@@ -64,10 +72,10 @@ class ScriptSculptorApp:
     def selectFrame(self, frame):
         # Method to select a frame and highlight it with a different colored border
         if self.selected_frame:
-            self.selected_frame.configure(bg="red")  # Reset the previously selected frame color
+            self.selected_frame.configure(bg=self.colors["script_frame"])  # Reset the previously selected frame color
 
         self.selected_frame = frame
-        frame.configure(bg="green")  # Highlight the selected frame
+        frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
 
 
 def main():
