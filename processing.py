@@ -1,7 +1,7 @@
-# processing.py
 from configparser import ConfigParser
 
-class BatchFileGenerator:
+
+class Processing:
     def __init__(self):
         self.config = ConfigParser()
         self.config.read('settings.ini')
@@ -19,3 +19,6 @@ class BatchFileGenerator:
         # Update the value of relief_counter
         self.config.set('styles', 'relief_counter', str(self.relief_counter))
         return relief
+
+    def process_user_info(self, info):
+        return

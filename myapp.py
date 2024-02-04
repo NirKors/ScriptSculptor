@@ -1,7 +1,9 @@
 # myapp.py
 import tkinter as tk
 from configparser import ConfigParser
-from processing import BatchFileGenerator
+
+from processing import Processing
+
 
 class MyApp:
     def __init__(self, master):
@@ -12,7 +14,7 @@ class MyApp:
         config.read('settings.ini')
 
         self.colors = config["colors"]
-        self.relief_generator = BatchFileGenerator()
+        self.relief_generator = Processing()
 
         window_width = 800
         window_height = 600
@@ -65,12 +67,19 @@ class MyApp:
         newFrame = tk.Frame(self.master, borderwidth=1, relief="solid", background=self.colors["script_frame"])
         newFrame.pack(pady=5, padx=5, fill="x")
 
-        newButton = tk.Button(newFrame, text="Placeholder button")
-        newButton.pack()
-
         # Example: Add a label to the new frame
         label = tk.Label(newFrame, text="Placeholder label", padx=10)
         label.pack(side=tk.LEFT)
+
+        # Dropdown Menu
+        options = ["Option 1", "Option 2", "Option 3"]
+        selected_option = tk.StringVar(newFrame)
+        selected_option.set(options[0])  # Set default option
+        dropdown = tk.OptionMenu(newFrame, selected_option, *options)
+        dropdown.pack(side=tk.LEFT)
+
+        newButton = tk.Button(newFrame, text="Placeholder button")
+        newButton.pack(side=tk.RIGHT)
 
         # Bind click event to the frame
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.selectFrame(frame))
