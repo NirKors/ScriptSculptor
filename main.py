@@ -46,6 +46,10 @@ class ScriptSculptorApp:
 
 
     def deleteFrame(self):
+
+        if self.selected_frame:
+            self.selected_frame.destroy()
+            self.selected_frame = None
         return
 
     def changeStyle(self):
