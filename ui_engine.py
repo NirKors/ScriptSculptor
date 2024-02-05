@@ -1,11 +1,11 @@
-# myapp.py
+# ui_engine.py
 import tkinter as tk
 from configparser import ConfigParser
 
 from processing import Processing
 
 
-class MyApp:
+class UIEngine:
     def __init__(self, master):
         self.master = master
         master.title("ScriptSculptor")

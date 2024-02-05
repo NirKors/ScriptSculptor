@@ -1,12 +1,12 @@
 # main.py
 import tkinter as tk
 
-from myapp import MyApp
+from ui_engine import UIEngine
 
 
 def main():
     root = tk.Tk()
-    app = MyApp(root)
+    app = UIEngine(root)
     root.mainloop()
 
 
