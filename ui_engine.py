@@ -24,18 +24,18 @@ class UIEngine:
         y_coordinate = (screen_height - window_height) // 2
         master.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
-        buttons_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background=self.colors["buttons_frame"])
+        top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background=self.colors["buttons_frame"])
 
-        newFrameButton = tk.Button(buttons_frame, text="Add New Frame", command=self.createNewFrame)
+        newFrameButton = tk.Button(top_buttons_frame, text="Add New Frame", command=self.createNewFrame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
 
-        deleteFrameButton = tk.Button(buttons_frame, text="Delete Frame", command=self.deleteFrame)
+        deleteFrameButton = tk.Button(top_buttons_frame, text="Delete Frame", command=self.deleteFrame)
         deleteFrameButton.pack(side=tk.LEFT, padx=5)
 
-        reliefFrameButton = tk.Button(buttons_frame, text="Change Style", command=self.changeStyle)
+        reliefFrameButton = tk.Button(top_buttons_frame, text="Change Style", command=self.changeStyle)
         reliefFrameButton.pack(side=tk.LEFT, padx=5)
 
-        buttons_frame.pack(anchor="nw", pady=5, padx=5)
+        top_buttons_frame.pack(anchor="nw", pady=5, padx=5)
 
         # Use a class variable to keep track of the selected frame
         self.selected_frame = None
@@ -43,8 +43,13 @@ class UIEngine:
         scriptFrame = tk.Label(self.master, borderwidth=2, relief="solid", background=self.colors["script_frame"])
         scriptFrame.pack(expand=True, fill="both")
 
-        self.createNewFrame()
-        self.createNewFrame()
+        self.scriptFrame = scriptFrame
+
+        create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background=self.colors["buttons_frame"])
+        create_script_button = tk.Button(create_script_button_frame, text="Create script", command=lambda: self.sendInfo())
+        create_script_button.pack(side=tk.LEFT, padx=5)
+        create_script_button_frame.pack(anchor="se")
+
 
     def deleteFrame(self):
 
@@ -63,11 +68,10 @@ class UIEngine:
         return
 
     def createNewFrame(self):
-        # Method to add a new frame dynamically
-        newFrame = tk.Frame(self.master, borderwidth=1, relief="solid", background=self.colors["script_frame"])
-        newFrame.pack(pady=5, padx=5, fill="x")
+        # New frame
+        newFrame = tk.Frame(self.scriptFrame, borderwidth=1, relief="solid", background=self.colors["script_frame"])
+        newFrame.pack(pady=5, padx=5, fill="x", side=tk.TOP)
 
-        # Example: Add a label to the new frame
         label = tk.Label(newFrame, text="Placeholder label", padx=10)
         label.pack(side=tk.LEFT)
 
@@ -78,7 +82,7 @@ class UIEngine:
         dropdown = tk.OptionMenu(newFrame, selected_option, *options)
         dropdown.pack(side=tk.LEFT)
 
-        newButton = tk.Button(newFrame, text="Placeholder button")
+        newButton = tk.Button(newFrame, text="X")
         newButton.pack(side=tk.RIGHT)
 
         # Bind click event to the frame
@@ -92,6 +96,11 @@ class UIEngine:
         for child in widget.winfo_children():
             child.bind("<Button-1>", lambda event, frame=widget: self.selectFrame(frame))
             self.bind_children_click(child)
+
+    def sendInfo(self):
+        for frame in self.scriptFrame.children:
+            print(frame)
+        return
 
     def selectFrame(self, frame):
         # Method to select a frame and highlight it with a different colored border
