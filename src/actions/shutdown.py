@@ -1,11 +1,11 @@
 import tkinter as tk
 
 
-class ShutdownAction:
-    def __init__(self):
-        self.restart = False
-        self.time_value = 0
-        self.time_unit = 'seconds'
+class Shutdown:
+    def __init__(self, restart, delay, time_unit):
+        self.restart = restart
+        self.delay = delay
+        self.time_unit = time_unit
 
     def get_ui_elements(self, parent_frame):
         # Create and return UI elements for configuring shutdown options
