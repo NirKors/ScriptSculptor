@@ -73,7 +73,7 @@ class UIEngine:
 
     def createNewFrame(self):
         # New frame
-        newFrame = tk.Frame(self.scriptFrame, borderwidth=1, relief=self.getRelief(),
+        newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.getRelief(),
                             background=self.colors["script_frame"])
 
         label = tk.Label(newFrame, text="Placeholder label", padx=10)
