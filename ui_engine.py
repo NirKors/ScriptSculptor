@@ -11,6 +11,8 @@ class UIEngine:
         master.title("ScriptSculptor")
         master.configure(bg="white")
         config = ConfigParser()
+        config.read('configuration.ini')
+        self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
         config.read('settings.ini')
 
         self.colors = config["colors"]
@@ -78,10 +80,9 @@ class UIEngine:
         label.pack(side=tk.LEFT)
 
         # Dropdown Menu
-        options = ["Option 1", "Option 2", "Option 3"]
         selected_option = tk.StringVar(newFrame)
-        selected_option.set(options[0])  # Set default option
-        dropdown = tk.OptionMenu(newFrame, selected_option, *options)
+        selected_option.set(self.dropdown_options[0])  # Set default option
+        dropdown = tk.OptionMenu(newFrame, selected_option, *self.dropdown_options)
         dropdown.pack(side=tk.LEFT)
 
         newButton = tk.Button(newFrame, text="X")
