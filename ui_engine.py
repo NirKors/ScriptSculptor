@@ -9,7 +9,7 @@ class UIEngine:
     def __init__(self, master):
         self.master = master
         master.title("ScriptSculptor")
-        master.configure(bg="black")
+        master.configure(bg="white")
         config = ConfigParser()
         config.read('settings.ini')
 
@@ -38,11 +38,10 @@ class UIEngine:
 
         top_buttons_frame.pack(anchor="nw", pady=5, padx=5)
 
-        # Use a class variable to keep track of the selected frame
         self.selected_frame = None
 
-        scriptFrame = tk.Label(self.master, borderwidth=2, relief=self.getRelief(),
-                               background=self.colors["script_frame"], name="script_frame")
+        scriptFrame = tk.Frame(self.master, borderwidth=2, relief=self.getRelief(),
+                               background=self.colors["background"], name="script_frame")
         scriptFrame.pack(expand=True, fill="both")
 
         self.scriptFrame = scriptFrame
@@ -53,7 +52,6 @@ class UIEngine:
                                          command=lambda: self.sendInfo())
         create_script_button.pack(side=tk.LEFT, padx=5)
         create_script_button_frame.pack(anchor="se")
-
 
     def deleteFrame(self):
 
@@ -73,7 +71,8 @@ class UIEngine:
 
     def createNewFrame(self):
         # New frame
-        newFrame = tk.Frame(self.scriptFrame, borderwidth=1, relief=self.getRelief(), background="black")
+        newFrame = tk.Frame(self.scriptFrame, borderwidth=1, relief=self.getRelief(),
+                            background=self.colors["script_frame"])
 
         label = tk.Label(newFrame, text="Placeholder label", padx=10)
         label.pack(side=tk.LEFT)
@@ -93,6 +92,10 @@ class UIEngine:
 
         # Bind click event to its children
         self.bind_children_click(newFrame)
+        newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
+
+    def getRelief(self):
+        return self.processing.get_relief()
 
     def bind_children_click(self, widget):
         # Method to bind the click event to all children of a widget
@@ -112,3 +115,12 @@ class UIEngine:
 
         self.selected_frame = frame
         frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
+
+
+def printinfo(master, depth=1):
+    for child, value in master.children.items():
+        print('\t' * depth + f" {child}")
+        if isinstance(value, tk.Frame):
+            printinfo(value, depth + 1)
+
+    return
