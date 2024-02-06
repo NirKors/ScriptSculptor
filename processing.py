@@ -8,7 +8,7 @@ class Processing:
         self.relief_counter = self.config.getint('styles', 'relief_counter')
         self.reliefs = self.config.get('styles', 'relief').split(', ')
 
-    def get_relief(self):
+    def set_relief(self):
         if self.reliefs and self.relief_counter < len(self.reliefs):
             relief = self.reliefs[self.relief_counter]
             self.relief_counter += 1
@@ -19,6 +19,11 @@ class Processing:
         # Update the value of relief_counter
         self.config.set('styles', 'relief_counter', str(self.relief_counter))
         return relief
+
+    def get_relief(self):
+        relief_num = int(self.config.get('styles', 'relief_counter'))
+        return self.reliefs[relief_num]
+
 
     def process_user_info(self, info):
         return

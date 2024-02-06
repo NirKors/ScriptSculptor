@@ -14,7 +14,7 @@ class UIEngine:
         config.read('settings.ini')
 
         self.colors = config["colors"]
-        self.relief_generator = Processing()
+        self.processing = Processing()
 
         window_width = 800
         window_height = 600
@@ -24,7 +24,8 @@ class UIEngine:
         y_coordinate = (screen_height - window_height) // 2
         master.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
-        top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background=self.colors["buttons_frame"])
+        top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief=self.getRelief(),
+                                     background=self.colors["buttons_frame"], name="top_buttons_frame")
 
         newFrameButton = tk.Button(top_buttons_frame, text="Add New Frame", command=self.createNewFrame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
@@ -40,13 +41,16 @@ class UIEngine:
         # Use a class variable to keep track of the selected frame
         self.selected_frame = None
 
-        scriptFrame = tk.Label(self.master, borderwidth=2, relief="solid", background=self.colors["script_frame"])
+        scriptFrame = tk.Label(self.master, borderwidth=2, relief=self.getRelief(),
+                               background=self.colors["script_frame"], name="script_frame")
         scriptFrame.pack(expand=True, fill="both")
 
         self.scriptFrame = scriptFrame
 
-        create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief="solid", background=self.colors["buttons_frame"])
-        create_script_button = tk.Button(create_script_button_frame, text="Create script", command=lambda: self.sendInfo())
+        create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief=self.getRelief(),
+                                              background=self.colors["buttons_frame"], name="create_button_frame")
+        create_script_button = tk.Button(create_script_button_frame, text="Create script",
+                                         command=lambda: self.sendInfo())
         create_script_button.pack(side=tk.LEFT, padx=5)
         create_script_button_frame.pack(anchor="se")
 
@@ -59,7 +63,7 @@ class UIEngine:
         return
 
     def changeStyle(self):
-        relief = self.relief_generator.get_relief()
+        relief = self.processing.set_relief()
 
         for child in self.master.winfo_children():
             # Check if the child is a frame
@@ -69,8 +73,7 @@ class UIEngine:
 
     def createNewFrame(self):
         # New frame
-        newFrame = tk.Frame(self.scriptFrame, borderwidth=1, relief="solid", background=self.colors["script_frame"])
-        newFrame.pack(pady=5, padx=5, fill="x", side=tk.TOP)
+        newFrame = tk.Frame(self.scriptFrame, borderwidth=1, relief=self.getRelief(), background="black")
 
         label = tk.Label(newFrame, text="Placeholder label", padx=10)
         label.pack(side=tk.LEFT)
