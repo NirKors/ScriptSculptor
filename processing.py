@@ -4,7 +4,7 @@ from configparser import ConfigParser
 class Processing:
     def __init__(self):
         self.config = ConfigParser()
-        self.config.read('settings.ini')
+        self.config.read('config/settings.ini')
         self.relief_counter = self.config.getint('styles', 'relief_counter')
         self.reliefs = self.config.get('styles', 'relief').split(', ')
 

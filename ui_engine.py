@@ -11,9 +11,9 @@ class UIEngine:
         master.title("ScriptSculptor")
         master.configure(bg="white")
         config = ConfigParser()
-        config.read('configuration.ini')
+        config.read('config/configuration.ini')
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
-        config.read('settings.ini')
+        config.read('config/settings.ini')
 
         self.colors = config["colors"]
         self.processing = Processing()
