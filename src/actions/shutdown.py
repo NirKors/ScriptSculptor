@@ -7,7 +7,9 @@ class Shutdown:
         self.delay = delay
         self.time_unit = time_unit
 
-    def get_ui_elements(self, parent_frame):
+    def build_ui(self, parent_frame):
+        print("build_ui")
+        return
         # Create and return UI elements for configuring shutdown options
         restart_var = tk.BooleanVar(value=self.restart)
         restart_checkbox = tk.Checkbutton(parent_frame, text="Restart", variable=restart_var)

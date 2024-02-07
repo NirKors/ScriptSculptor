@@ -1,8 +1,8 @@
 # ui_engine.py
 import tkinter as tk
 from configparser import ConfigParser
-from actions.shutdown import Shutdown
 
+from actions.shutdown import Shutdown
 from processing import Processing
 
 
@@ -63,15 +63,6 @@ class UIEngine:
             self.selected_frame = None
         return
 
-    def changeStyle(self):
-        relief = self.processing.set_relief()
-
-        for child in self.master.winfo_children():
-            # Check if the child is a frame
-            if isinstance(child, tk.Frame):
-                child.configure(relief=relief)
-        return
-
     def createNewFrame(self):
         # New frame
         newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.getRelief(),
@@ -81,10 +72,12 @@ class UIEngine:
         label.pack(side=tk.LEFT)
 
         # Dropdown Menu
-        selected_option = tk.StringVar(newFrame)
-        selected_option.set(self.dropdown_options[0])  # Set default option
-        dropdown = tk.OptionMenu(newFrame, selected_option, *self.dropdown_options)
-        dropdown.pack(side=tk.LEFT)
+        selected_action = tk.StringVar(newFrame)
+        selected_action.set(self.dropdown_options[0])  # Set default option
+        action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
+                                        command=lambda selected_action_value:
+                                        self.handle_action_selection(selected_action_value, newFrame))
+        action_dropdown.pack(side=tk.LEFT)
 
         newButton = tk.Button(newFrame, text="X")
         newButton.pack(side=tk.RIGHT)
@@ -95,6 +88,35 @@ class UIEngine:
         # Bind click event to its children
         self.bind_children_click(newFrame)
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
+        self.handle_action_selection(self.dropdown_options[0], newFrame)
+
+    def handle_action_selection(self, selected_action, frame_master):
+        print(f"Selected Action: {selected_action}, Frame Master: {frame_master}")
+        return
+
+        if not frame:
+            frame = self.selected_frame
+
+        # Destroy previous UI components
+        for child in frame.winfo_children():
+            child.destroy()
+
+        # Create an instance of the selected action class
+        if selected_action == "Shutdown":
+            shutdown_action = Shutdown(restart=tk.BooleanVar(), delay=tk.StringVar(), time_unit=tk.StringVar())
+            shutdown_action.build_ui(self.scriptFrame)
+        elif selected_action == "Other Action":
+            # Create other action instance and build UI
+            pass
+
+    def changeStyle(self):
+        relief = self.processing.set_relief()
+
+        for child in self.master.winfo_children():
+            # Check if the child is a frame
+            if isinstance(child, tk.Frame):
+                child.configure(relief=relief)
+        return
 
     def getRelief(self):
         return self.processing.get_relief()
