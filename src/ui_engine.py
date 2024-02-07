@@ -10,7 +10,7 @@ class UIEngine:
     def __init__(self, master):
         self.master = master
         master.title("ScriptSculptor")
-        master.configure(bg="white")
+        master.configure(bg="black")
         config = ConfigParser()
         config.read('config/configuration.ini')
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
@@ -27,7 +27,7 @@ class UIEngine:
         y_coordinate = (screen_height - window_height) // 2
         master.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
-        top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief=self.getRelief(),
+        top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                      background=self.colors["buttons_frame"], name="top_buttons_frame")
 
         newFrameButton = tk.Button(top_buttons_frame, text="Add New Frame", command=self.createNewFrame)
@@ -43,13 +43,13 @@ class UIEngine:
 
         self.selected_frame = None
 
-        scriptFrame = tk.Frame(self.master, borderwidth=2, relief=self.getRelief(),
+        scriptFrame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                background=self.colors["background"], name="script_frame")
         scriptFrame.pack(expand=True, fill="both")
 
         self.scriptFrame = scriptFrame
 
-        create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief=self.getRelief(),
+        create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                               background=self.colors["buttons_frame"], name="create_button_frame")
         create_script_button = tk.Button(create_script_button_frame, text="Create script",
                                          command=lambda: self.sendInfo())
@@ -65,7 +65,7 @@ class UIEngine:
 
     def createNewFrame(self):
         # New frame
-        newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.getRelief(),
+        newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.processing.get_relief(),
                             background=self.colors["script_frame"])
 
         label = tk.Label(newFrame, text="Placeholder label", padx=10)
@@ -108,17 +108,22 @@ class UIEngine:
             # Create other action instance and build UI
             pass
 
-    def changeStyle(self):
-        relief = self.processing.set_relief()
+    def changeStyle(self, parent=None):
+        if parent is None:
+            parent = self.master
+            relief = self.processing.cycle_relief()
+        else:
+            relief = self.processing.get_relief()
 
-        for child in self.master.winfo_children():
-            # Check if the child is a frame
-            if isinstance(child, tk.Frame):
-                child.configure(relief=relief)
+        # Apply relief to the parent frame
+        if isinstance(parent, tk.Frame):
+            parent.configure(relief=relief)
+
+        # Recursively apply relief to children frames
+        for child in parent.winfo_children():
+            self.changeStyle(child)
+
         return
-
-    def getRelief(self):
-        return self.processing.get_relief()
 
     def bind_children_click(self, widget):
         # Method to bind the click event to all children of a widget
