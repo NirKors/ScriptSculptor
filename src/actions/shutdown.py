@@ -1,11 +1,16 @@
 import tkinter as tk
 
+from .action import Action
 
-class Shutdown:
+
+class Shutdown(Action):
     def __init__(self, restart, delay, time_unit):
         self.restart = restart
         self.delay = delay
         self.time_unit = time_unit
+
+    def perform_task(self):
+        pass
 
     def build_ui(self, parent_frame):
         print("build_ui")

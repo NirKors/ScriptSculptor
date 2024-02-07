@@ -1,6 +1,6 @@
 class Action:
-    def __init__(self, name):
-        self.name = name
-
     def perform_task(self):
-        print("action.perform_task")
+        raise NotImplementedError("Subclasses must implement perform_task method")
+
+    def build_ui(self, parent_frame):
+        raise NotImplementedError("Subclasses must implement build_ui method")
