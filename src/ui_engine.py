@@ -1,6 +1,7 @@
 # ui_engine.py
 import tkinter as tk
 from configparser import ConfigParser
+from tkinter import messagebox
 
 import action_handler
 from processing import Processing
@@ -52,8 +53,11 @@ class UIEngine:
 
         create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                               background=self.colors["buttons_frame"], name="create_button_frame")
-        create_script_button = tk.Button(create_script_button_frame, text="Create script",
-                                         command=lambda: self.send_info())
+        check_script_button = tk.Button(create_script_button_frame, text="Check For Errors",
+                                        command=lambda: self.check_for_errors())
+        check_script_button.pack(side=tk.LEFT, padx=5)
+        create_script_button = tk.Button(create_script_button_frame, text="Create Script",
+                                         command=lambda: self.create_script())
         create_script_button.pack(side=tk.LEFT, padx=5)
         create_script_button_frame.pack(anchor="se")
 
@@ -69,7 +73,7 @@ class UIEngine:
         newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.processing.get_relief(),
                             background=self.colors["script_frame"])
 
-        label = tk.Label(newFrame, text="Placeholder label", padx=10)
+        label = tk.Label(newFrame, text="Action:", padx=10)
         label.pack(side=tk.LEFT)
 
         # Dropdown Menu
@@ -77,7 +81,7 @@ class UIEngine:
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
                                         command=lambda selected_action_value:
-                                        action_handler.handle_action_selection(selected_action_value, newFrame))
+                                        self.handle_action_selection(selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT)
 
         newButton = tk.Button(newFrame, text="X")
@@ -87,10 +91,19 @@ class UIEngine:
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
 
         # Bind click event to its children
-        self.bind_children_click(newFrame)
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
-        action_handler.handle_action_selection(self.dropdown_options[0], newFrame)
-        self.bind_children_click(newFrame)
+        self.handle_action_selection(self.dropdown_options[0], newFrame)
+
+    def handle_action_selection(self, selected_action, master_frame):
+        # Destroy previous UI components
+        action_handler.clear_frame(master_frame)
+
+        # Create an instance of the selected action class
+        action = action_handler.create_action(selected_action)
+        action.build_ui(master_frame)
+        master_frame.action = action
+
+        self.bind_children_click(master_frame)
 
     def change_style(self, parent=None):
         if parent is None:
@@ -115,9 +128,27 @@ class UIEngine:
             child.bind("<Button-1>", lambda event, frame=widget: self.select_frame(frame))
             self.bind_children_click(child)
 
-    def send_info(self):
-        for frame in self.scriptFrame.children:
-            print(frame)
+    def check_for_errors(self, create_call=False):
+        errors = []
+        for frame in self.scriptFrame.children.values():
+            check = frame.action.check_for_errors()
+            if check:
+                errors.append(check)
+        if errors:
+            error_message = "\n".join(errors)
+            messagebox.showerror("Error Check", error_message)
+            return False
+        if not errors and not create_call:
+            messagebox.showinfo("Error Check", "No errors were found.")
+        return True
+
+    def create_script(self):
+        if self.check_for_errors(True):
+            try:
+                for frame in self.scriptFrame.children.values():
+                    frame.action.get_command_string()
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
         return
 
     def select_frame(self, frame):

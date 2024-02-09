@@ -9,7 +9,6 @@ class Shutdown(Action):
         self.time_unit = tk.StringVar()
 
     def build_ui(self, parent_frame):
-        print("build_ui")
         # Create and return UI elements for configuring shutdown options
 
         time_label = tk.Label(parent_frame, text="Time before shutdown:")
@@ -24,10 +23,31 @@ class Shutdown(Action):
         time_unit_dropdown.pack(side=tk.LEFT, padx=(0, 5))
 
         restart_var = tk.BooleanVar(parent_frame, value=bool(self.restart.get()))
-        restart_checkbox = tk.Checkbutton(parent_frame, text="Restart", variable=restart_var)
+        restart_checkbox = tk.Checkbutton(parent_frame, text="Restart", variable=self.restart)
         restart_checkbox.pack(side=tk.LEFT)
 
         return restart_checkbox, time_entry, time_unit_dropdown
 
-    def perform_task(self):
-        pass
+    def check_for_errors(self):
+        # Check if delay is a valid numerical value
+        try:
+            if float(self.delay.get()) < 0:
+                raise ValueError
+
+        except ValueError:
+            return "Action: Shutdown\n\tError: Invalid delay value. Please enter a non-negative numerical value."
+        return None
+
+    def get_command_string(self):
+        delay_value = int(self.delay.get())
+        restart_value = '/r' if self.restart.get() else '/s'
+        time_unit = self.time_unit.get()
+
+        if time_unit == "Minutes":
+            delay_value *= 60
+        if time_unit == "Hours":
+            delay_value *= 60 * 60
+        if time_unit == "Days":
+            delay_value *= 60 * 60 * 24
+
+        return f"/shutdown {restart_value} /t {delay_value}"

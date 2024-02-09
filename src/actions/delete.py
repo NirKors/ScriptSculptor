@@ -9,6 +9,6 @@ class Delete(Action):
     def build_ui(self, parent_frame):
         pass
 
-    def perform_task(self):
+    def get_command_string(self):
         pass
 

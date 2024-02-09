@@ -9,15 +9,6 @@ from actions.sleep import Sleep
 from actions.system_information import SystemInformation
 
 
-def handle_action_selection(selected_action, master_frame):
-    # Destroy previous UI components
-    clear_frame(master_frame)
-
-    # Create an instance of the selected action class
-    action = create_action(selected_action)
-    action.build_ui(master_frame)
-
-
 def create_action(selected_action):
     action_classes = {
         "Shutdown": Shutdown,
