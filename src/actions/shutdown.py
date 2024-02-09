@@ -8,6 +8,9 @@ class Shutdown(Action):
         self.delay = tk.StringVar()
         self.time_unit = tk.StringVar()
 
+        self.time_unit.set('Seconds')
+        self.delay.set('0')
+
     def build_ui(self, parent_frame):
         # Create and return UI elements for configuring shutdown options
 
@@ -18,11 +21,9 @@ class Shutdown(Action):
         time_entry.pack(side=tk.LEFT, padx=(0, 5))
 
         time_unit_options = ['Seconds', 'Minutes', 'Hours', 'Days']
-        self.time_unit.set('Minutes')  # Set the default value to "Minutes"
         time_unit_dropdown = tk.OptionMenu(parent_frame, self.time_unit, *time_unit_options)
         time_unit_dropdown.pack(side=tk.LEFT, padx=(0, 5))
 
-        restart_var = tk.BooleanVar(parent_frame, value=bool(self.restart.get()))
         restart_checkbox = tk.Checkbutton(parent_frame, text="Restart", variable=self.restart)
         restart_checkbox.pack(side=tk.LEFT)
 
