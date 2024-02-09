@@ -102,11 +102,11 @@ class UIEngine:
 
         # Create an instance of the selected action class
         if selected_action == "Shutdown":
-            shutdown_action = Shutdown(restart=tk.BooleanVar(), delay=tk.StringVar(), time_unit=tk.StringVar())
-            shutdown_action.build_ui(self.scriptFrame)
-        elif selected_action == "Other Action":
+            action = Shutdown()
+        elif selected_action == "Other Action":  # TODO
             # Create other action instance and build UI
             pass
+        action.build_ui(master)
 
     def changeStyle(self, parent=None):
         if parent is None:
