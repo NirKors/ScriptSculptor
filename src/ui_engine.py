@@ -145,8 +145,11 @@ class UIEngine:
     def create_script(self):
         if self.check_for_errors(True):
             try:
+                commands = []
                 for frame in self.scriptFrame.children.values():
-                    frame.action.get_command_string()
+                    commands.append(frame.action.get_command_string())
+                self.processing.save_script(commands)
+
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         return

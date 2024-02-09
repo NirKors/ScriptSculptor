@@ -29,5 +29,7 @@ class Processing:
         with open('config/settings.ini', 'w') as configfile:
             self.config.write(configfile)
 
-    def process_user_info(self, info):
-        return
+    def save_script(self, commands):
+        print("processing.save_script:")
+        print(commands)
+        pass
