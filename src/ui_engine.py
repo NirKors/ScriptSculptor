@@ -31,13 +31,13 @@ class UIEngine:
         top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                      background=self.colors["buttons_frame"], name="top_buttons_frame")
 
-        newFrameButton = tk.Button(top_buttons_frame, text="Add New Frame", command=self.createNewFrame)
+        newFrameButton = tk.Button(top_buttons_frame, text="Add New Frame", command=self.create_new_frame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
 
-        deleteFrameButton = tk.Button(top_buttons_frame, text="Delete Frame", command=self.deleteFrame)
+        deleteFrameButton = tk.Button(top_buttons_frame, text="Delete Frame", command=self.delete_frame)
         deleteFrameButton.pack(side=tk.LEFT, padx=5)
 
-        reliefFrameButton = tk.Button(top_buttons_frame, text="Change Style", command=self.changeStyle)
+        reliefFrameButton = tk.Button(top_buttons_frame, text="Change Style", command=self.change_style)
         reliefFrameButton.pack(side=tk.LEFT, padx=5)
 
         top_buttons_frame.pack(anchor="nw", pady=5, padx=5)
@@ -53,18 +53,18 @@ class UIEngine:
         create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                               background=self.colors["buttons_frame"], name="create_button_frame")
         create_script_button = tk.Button(create_script_button_frame, text="Create script",
-                                         command=lambda: self.sendInfo())
+                                         command=lambda: self.send_info())
         create_script_button.pack(side=tk.LEFT, padx=5)
         create_script_button_frame.pack(anchor="se")
 
-    def deleteFrame(self):
+    def delete_frame(self):
 
         if self.selected_frame:
             self.selected_frame.destroy()
             self.selected_frame = None
         return
 
-    def createNewFrame(self):
+    def create_new_frame(self):
         # New frame
         newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.processing.get_relief(),
                             background=self.colors["script_frame"])
@@ -84,14 +84,15 @@ class UIEngine:
         newButton.pack(side=tk.RIGHT)
 
         # Bind click event to the frame
-        newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.selectFrame(frame))
+        newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
 
         # Bind click event to its children
         self.bind_children_click(newFrame)
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
         action_handler.handle_action_selection(self.dropdown_options[0], newFrame)
+        self.bind_children_click(newFrame)
 
-    def changeStyle(self, parent=None):
+    def change_style(self, parent=None):
         if parent is None:
             parent = self.master
             relief = self.processing.cycle_relief()
@@ -104,22 +105,22 @@ class UIEngine:
 
         # Recursively apply relief to children frames
         for child in parent.winfo_children():
-            self.changeStyle(child)
+            self.change_style(child)
 
         return
 
     def bind_children_click(self, widget):
         # Method to bind the click event to all children of a widget
         for child in widget.winfo_children():
-            child.bind("<Button-1>", lambda event, frame=widget: self.selectFrame(frame))
+            child.bind("<Button-1>", lambda event, frame=widget: self.select_frame(frame))
             self.bind_children_click(child)
 
-    def sendInfo(self):
+    def send_info(self):
         for frame in self.scriptFrame.children:
             print(frame)
         return
 
-    def selectFrame(self, frame):
+    def select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
         if self.selected_frame:
             self.selected_frame.configure(bg=self.colors["script_frame"])  # Reset the previously selected frame color
@@ -128,10 +129,10 @@ class UIEngine:
         frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
 
 
-def printinfo(master, depth=1):
+def print_info(master, depth=1):
     for child, value in master.children.items():
         print('\t' * depth + f" {child}")
         if isinstance(value, tk.Frame):
-            printinfo(value, depth + 1)
+            print_info(value, depth + 1)
 
     return
