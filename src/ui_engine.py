@@ -2,7 +2,7 @@
 import tkinter as tk
 from configparser import ConfigParser
 
-from actions.shutdown import Shutdown
+import action_handler
 from processing import Processing
 
 
@@ -11,6 +11,7 @@ class UIEngine:
         self.master = master
         master.title("ScriptSculptor")
         master.configure(bg="black")
+
         config = ConfigParser()
         config.read('config/configuration.ini')
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
@@ -76,7 +77,7 @@ class UIEngine:
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
                                         command=lambda selected_action_value:
-                                        self.handle_action_selection(selected_action_value, newFrame))
+                                        action_handler.handle_action_selection(selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT)
 
         newButton = tk.Button(newFrame, text="X")
@@ -88,25 +89,7 @@ class UIEngine:
         # Bind click event to its children
         self.bind_children_click(newFrame)
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
-        self.handle_action_selection(self.dropdown_options[0], newFrame)
-
-    def handle_action_selection(self, selected_action, master):
-        print(f"Selected Action: {selected_action}, Frame Master: {master}")
-
-        # Destroy previous UI components
-        counter = 0
-        for child in master.winfo_children():
-            if counter >= 3:
-                child.destroy()
-            counter += 1
-
-        # Create an instance of the selected action class
-        if selected_action == "Shutdown":
-            action = Shutdown()
-        elif selected_action == "Other Action":  # TODO
-            # Create other action instance and build UI
-            pass
-        action.build_ui(master)
+        action_handler.handle_action_selection(self.dropdown_options[0], newFrame)
 
     def changeStyle(self, parent=None):
         if parent is None:
