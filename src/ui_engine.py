@@ -135,7 +135,7 @@ class UIEngine:
             if check:
                 errors.append(check)
         if errors:
-            error_message = "\n".join(errors)
+            error_message = "\n\n".join(errors)
             messagebox.showerror("Error Check", error_message)
             return False
         if not errors and not create_call:
