@@ -21,7 +21,7 @@ class UIEngine:
         self.colors = config["colors"]
         self.processing = Processing()
 
-        window_width = 800
+        window_width = 1200
         window_height = 600
         screen_width = master.winfo_screenwidth()
         screen_height = master.winfo_screenheight()
@@ -82,7 +82,7 @@ class UIEngine:
         action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
                                         command=lambda selected_action_value:
                                         self.handle_action_selection(selected_action_value, newFrame))
-        action_dropdown.pack(side=tk.LEFT)
+        action_dropdown.pack(side=tk.LEFT, padx=5)
 
         newButton = tk.Button(newFrame, text="X")
         newButton.pack(side=tk.RIGHT)
