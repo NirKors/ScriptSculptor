@@ -87,16 +87,14 @@ class UIEngine:
 
         # Arrow buttons for reorganizing frames
         button_frame = tk.Frame(newFrame, name="navigation_frame")
-
         move_up_button = tk.Button(button_frame, text="↑", command=lambda frame=newFrame: self.move_frame_up(frame),
                                    font="bold")
         move_up_button.pack(side=tk.TOP)
-
         move_down_button = tk.Button(button_frame, text="↓", command=lambda frame=newFrame: self.move_frame_down(frame),
                                      font="bold")
         move_down_button.pack(side=tk.TOP)
-
         button_frame.pack(side=tk.RIGHT)
+        button_frame.widgetName = "nav_button_frame"
 
         # Bind click event to the frame
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
@@ -218,6 +216,8 @@ class UIEngine:
 
     def select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
+        if frame.widgetName == "nav_button_frame":
+            return
         if frame.master != self.scriptFrame:
             self.select_frame(frame.master)
             return
