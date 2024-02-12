@@ -20,6 +20,7 @@ class UIEngine:
 
         self.colors = config["colors"]
         self.processing = Processing()
+        self.frame_order = []
 
         window_width = 1200
         window_height = 600
@@ -103,12 +104,50 @@ class UIEngine:
         # Bind click event to its children
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
         self.handle_action_selection(self.dropdown_options[0], newFrame)
+        self.frame_order.append(newFrame)
 
     def move_frame_up(self, frame):
-        pass
+        # Check if the frame is already at the top
+        if frame not in self.frame_order or self.frame_order.index(frame) == 0:
+            return
+
+        # Get the index of the frame in the order list
+        current_index = self.frame_order.index(frame)
+
+        # Swap the frame with the one above it in the order list
+        self.frame_order[current_index], self.frame_order[current_index - 1] = (
+            self.frame_order[current_index - 1],
+            self.frame_order[current_index],
+        )
+
+        # Repack frames based on the updated order
+        self.repack_frames()
+
+    def repack_frames(self):
+        # Unpack all frames
+        for frame in self.frame_order:
+            frame.pack_forget()
+
+        # Pack frames in the updated order
+        for frame in self.frame_order:
+            frame.pack(pady=5, padx=5, fill="x", anchor='n')
 
     def move_frame_down(self, frame):
-        pass
+        # Check if the frame is already at the bottom
+        if frame not in self.frame_order or self.frame_order.index(frame) == len(self.frame_order) - 1:
+            return
+
+        # Get the index of the frame in the order list
+        current_index = self.frame_order.index(frame)
+
+        # Swap the frame with the one below it in the order list
+        self.frame_order[current_index], self.frame_order[current_index + 1] = (
+            self.frame_order[current_index + 1],
+            self.frame_order[current_index],
+        )
+
+        # Repack frames based on the updated order
+        self.repack_frames()
 
     def handle_action_selection(self, selected_action, master_frame):
         # Destroy previous UI components
