@@ -185,7 +185,12 @@ class UIEngine:
 
     def check_for_errors(self, create_call=False):
         errors = []
-        for frame in self.scriptFrame.children.values():
+        values = self.scriptFrame.children.values()
+        if not values:
+            messagebox.showwarning("Error Check", "No actions found.")
+            return False
+
+        for frame in values:
             check = frame.action.check_for_errors()
             if check:
                 errors.append(check)
@@ -194,7 +199,9 @@ class UIEngine:
             messagebox.showerror("Error Check", error_message)
             return False
         if not errors and not create_call:
-            messagebox.showinfo("Error Check", "No errors were found.")
+            response = messagebox.askquestion("Error Check", "No errors were found. Do you want to create the script?")
+            if response == "yes":
+                self.create_script()
         return True
 
     def create_script(self):
