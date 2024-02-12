@@ -84,8 +84,18 @@ class UIEngine:
                                         self.handle_action_selection(selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
 
-        newButton = tk.Button(newFrame, text="X")
-        newButton.pack(side=tk.RIGHT)
+        # Arrow buttons for reorganizing frames
+        button_frame = tk.Frame(newFrame, name="navigation_frame")
+
+        move_up_button = tk.Button(button_frame, text="↑", command=lambda frame=newFrame: self.move_frame_up(frame),
+                                   font="bold")
+        move_up_button.pack(side=tk.TOP)
+
+        move_down_button = tk.Button(button_frame, text="↓", command=lambda frame=newFrame: self.move_frame_down(frame),
+                                     font="bold")
+        move_down_button.pack(side=tk.TOP)
+
+        button_frame.pack(side=tk.RIGHT)
 
         # Bind click event to the frame
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
@@ -93,6 +103,12 @@ class UIEngine:
         # Bind click event to its children
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
         self.handle_action_selection(self.dropdown_options[0], newFrame)
+
+    def move_frame_up(self, frame):
+        pass
+
+    def move_frame_down(self, frame):
+        pass
 
     def handle_action_selection(self, selected_action, master_frame):
         # Destroy previous UI components
@@ -156,6 +172,10 @@ class UIEngine:
 
     def select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
+        if frame.master != self.scriptFrame:
+            self.select_frame(frame.master)
+            return
+
         if self.selected_frame:
             self.selected_frame.configure(bg=self.colors["script_frame"])  # Reset the previously selected frame color
 
