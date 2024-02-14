@@ -61,7 +61,11 @@ class CopyFile(Action):
     def check_for_errors(self):
         # Check if source and destination paths are provided
         if not self.source_path.get() or not self.destination_path.get():
-            return "Action: Copy\nError: Source and destination paths are required."
+            if type(self) == CopyFile:
+                action_type = "File"
+            else:
+                action_type = "Folder"
+            return f"Action: Copy {action_type}\nError: Source and destination paths are required."
 
         return None
 

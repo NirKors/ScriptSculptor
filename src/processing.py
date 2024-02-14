@@ -31,6 +31,5 @@ class Processing:
 
     def save_script(self, commands):
 
-        print("processing.save_script:")
-        print(commands)
+        print("\n".join(commands))
         pass

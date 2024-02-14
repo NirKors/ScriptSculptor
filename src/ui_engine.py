@@ -210,7 +210,7 @@ class UIEngine:
         if self.check_for_errors(True):
             try:
                 commands = []
-                for frame in self.scriptFrame.children.values():
+                for frame in self.frame_order:
                     commands.append(frame.action.get_command_string())
                 self.processing.save_script(commands)
 
