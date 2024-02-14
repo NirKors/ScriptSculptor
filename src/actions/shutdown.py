@@ -32,6 +32,24 @@ class Shutdown(Action):
         force_checkbox = tk.Checkbutton(parent_frame, text="Force Shutdown", variable=self.force)
         force_checkbox.pack(side=tk.LEFT)
 
+        self.ui_engine.create_tooltip("test", time_label)
+
+        tooltip = """
+        Initiates a system shutdown with configurable delay:
+
+          - Specify the delay value in the entry field.
+          - Choose the time unit (seconds, minutes, hours, days).
+          - Optionally, enable restart or force shutdown.
+
+          - Setting a delay will trigger shutdown at that time in the future.
+          - 'Restart' option reboots the computer after shutdown.
+          - 'Force Shutdown' option abruptly terminates running applications.
+
+        **Warning:** Force Shutdown may lead to data loss.
+        """
+
+        self.explanatory_tooltip(tooltip)
+
     def check_for_errors(self):
         # Check if delay is a valid numerical value
         try:
