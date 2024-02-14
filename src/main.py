@@ -6,6 +6,7 @@ from ui_engine import UIEngine
 
 def main():
     root = tk.Tk()
+    # root.wm_attributes("-transparentcolor", 'grey')
     app = UIEngine(root)
     root.mainloop()
 

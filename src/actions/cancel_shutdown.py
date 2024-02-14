@@ -4,9 +4,9 @@ from .action import Action
 
 class CancelShutdown(Action):
     def __init__(self):
-        pass
+        super().__init__()
 
-    def build_ui(self, parent_frame):
+    def build_ui(self):
         pass
 
     def check_for_errors(self):

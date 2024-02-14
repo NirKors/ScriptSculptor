@@ -6,13 +6,15 @@ from .action import Action
 
 class CopyFile(Action):
     def __init__(self):
+        super().__init__()
         self.source_button = None
         self.source_path = tk.StringVar()
         self.destination_path = tk.StringVar()
         self.suppress_overwrite = tk.BooleanVar()
         self.copy_attributes = tk.BooleanVar()
 
-    def build_ui(self, parent_frame):
+    def build_ui(self):
+        parent_frame = self.parent_frame
         # Create and return UI elements for configuring copy options
         source_label = tk.Label(parent_frame, text="Source Path:")
         source_label.pack(side=tk.LEFT, padx=(0, 5))

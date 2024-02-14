@@ -10,8 +10,9 @@ class CopyFolder(CopyFile):
         super().__init__()
         self.copy_subdirectories = tk.BooleanVar()
 
-    def build_ui(self, parent_frame):
-        super().build_ui(parent_frame)
+    def build_ui(self):
+        parent_frame = self.parent_frame
+        super().build_ui()
         self.source_button["text"] = "Select Folder"
 
         copy_subdirectories_checkbox = tk.Checkbutton(parent_frame, text="Copy Subdirectories",

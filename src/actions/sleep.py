@@ -6,7 +6,7 @@ class Sleep(Action):
     def __init__(self):
         pass
 
-    def build_ui(self, parent_frame):
+    def build_ui(self):
         pass
 
     def get_command_string(self):

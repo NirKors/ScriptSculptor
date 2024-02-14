@@ -4,6 +4,7 @@ from .action import Action
 
 class Shutdown(Action):
     def __init__(self):
+        super().__init__()
         self.restart = tk.BooleanVar()
         self.force = tk.BooleanVar()
         self.delay = tk.StringVar()
@@ -12,7 +13,8 @@ class Shutdown(Action):
         self.time_unit.set('Seconds')
         self.delay.set('0')
 
-    def build_ui(self, parent_frame):
+    def build_ui(self):
+        parent_frame = self.parent_frame
         # Create and return UI elements for configuring shutdown options
         time_label = tk.Label(parent_frame, text="Time before shutdown:")
         time_label.pack(side=tk.LEFT, padx=(0, 5))

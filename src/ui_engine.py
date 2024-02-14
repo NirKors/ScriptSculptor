@@ -122,15 +122,6 @@ class UIEngine:
         # Repack frames based on the updated order
         self.repack_frames()
 
-    def repack_frames(self):
-        # Unpack all frames
-        for frame in self.frame_order:
-            frame.pack_forget()
-
-        # Pack frames in the updated order
-        for frame in self.frame_order:
-            frame.pack(pady=5, padx=5, fill="x", anchor='n')
-
     def move_frame_down(self, frame):
         # Check if the frame is already at the bottom
         if frame not in self.frame_order or self.frame_order.index(frame) == len(self.frame_order) - 1:
@@ -148,13 +139,24 @@ class UIEngine:
         # Repack frames based on the updated order
         self.repack_frames()
 
+    def repack_frames(self):
+        # Unpack all frames
+        for frame in self.frame_order:
+            frame.pack_forget()
+
+        # Pack frames in the updated order
+        for frame in self.frame_order:
+            frame.pack(pady=5, padx=5, fill="x", anchor='n')
+
     def handle_action_selection(self, selected_action, master_frame):
         # Destroy previous UI components
         action_handler.clear_frame(master_frame)
 
         # Create an instance of the selected action class
         action = action_handler.create_action(selected_action)
-        action.build_ui(master_frame)
+        action.ui_engine = self
+        action.parent_frame = master_frame
+        action.build_ui()
         master_frame.action = action
 
         self.bind_children_click(master_frame)
@@ -217,6 +219,8 @@ class UIEngine:
 
     def select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
+        if frame == self.selected_frame:
+            return
         if frame.widgetName == "nav_button_frame":
             return
         if frame.master != self.scriptFrame:
