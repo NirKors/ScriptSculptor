@@ -65,6 +65,7 @@ class UIEngine:
     def delete_frame(self):
 
         if self.selected_frame:
+            self.frame_order.remove(self.selected_frame)
             self.selected_frame.destroy()
             self.selected_frame = None
         return
