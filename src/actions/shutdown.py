@@ -26,11 +26,13 @@ class Shutdown(Action):
         time_unit_dropdown = tk.OptionMenu(parent_frame, self.time_unit, *time_unit_options)
         time_unit_dropdown.pack(side=tk.LEFT, padx=(0, 5))
 
-        restart_checkbox = tk.Checkbutton(parent_frame, text="Restart", variable=self.restart)
-        restart_checkbox.pack(side=tk.LEFT)
+        checkbox_frame = tk.Frame(parent_frame)
+        checkbox_frame.pack(side=tk.LEFT)
+        restart_checkbox = tk.Checkbutton(checkbox_frame, text="Restart", variable=self.restart)
+        restart_checkbox.pack(anchor=tk.NW)
 
-        force_checkbox = tk.Checkbutton(parent_frame, text="Force Shutdown", variable=self.force)
-        force_checkbox.pack(side=tk.LEFT)
+        force_checkbox = tk.Checkbutton(checkbox_frame, text="Force Shutdown", variable=self.force)
+        force_checkbox.pack(anchor=tk.NW)
 
         self.ui_engine.create_tooltip("test", time_label)
 
@@ -39,7 +41,8 @@ class Shutdown(Action):
 
           - Specify the delay value in the entry field.
           - Choose the time unit (seconds, minutes, hours, days).
-          - Optionally, enable restart or force shutdown.
+          
+          Executing this command will trigger a system shutdown after the chosen delay:
 
           - Setting a delay will trigger shutdown at that time in the future.
           - 'Restart' option reboots the computer after shutdown.

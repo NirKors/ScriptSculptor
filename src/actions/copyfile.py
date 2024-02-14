@@ -12,6 +12,7 @@ class CopyFile(Action):
         self.destination_path = tk.StringVar()
         self.suppress_overwrite = tk.BooleanVar()
         self.copy_attributes = tk.BooleanVar()
+        self.checkbox_frame = None
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -35,13 +36,17 @@ class CopyFile(Action):
         folder_button = tk.Button(parent_frame, text="Select Folder", command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
-        suppress_overwrite_checkbox = tk.Checkbutton(parent_frame, text="Suppress Overwrite",
-                                                     variable=self.suppress_overwrite)
-        suppress_overwrite_checkbox.pack(side=tk.LEFT)
+        self.checkbox_frame = tk.Frame(parent_frame)
+        self.checkbox_frame.pack(side=tk.LEFT)
 
-        copy_attributes_checkbox = tk.Checkbutton(parent_frame, text="Copy Attributes",
+        suppress_overwrite_checkbox = tk.Checkbutton(self.checkbox_frame, text="Suppress Overwrite",
+                                                     variable=self.suppress_overwrite)
+        suppress_overwrite_checkbox.pack(anchor=tk.NW)
+        copy_attributes_checkbox = tk.Checkbutton(self.checkbox_frame, text="Copy Attributes",
                                                   variable=self.copy_attributes)
-        copy_attributes_checkbox.pack(side=tk.LEFT)
+        copy_attributes_checkbox.pack(anchor=tk.NW)
+
+        self.create_tooltip()
 
     def select_source(self):
         file_path = filedialog.askopenfilenames()
@@ -74,3 +79,19 @@ class CopyFile(Action):
         command += f' "{self.source_path.get()}" "{self.destination_path.get()}"'
 
         return command
+
+    def create_tooltip(self):
+        tooltip = """
+        Initiates a file copy operation:
+
+          - Source: Choose the file to copy using the "Select File(s)" button.
+          - Destination: Select the destination folder using the "Select Folder" button.
+
+          Options:
+
+            - Suppress Overwrite: Prevents overwriting existing files with the same name.
+            - Copy Attributes: Copies additional file information like permissions and timestamps.
+
+          **Warning:** Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
+        """
+        self.explanatory_tooltip(tooltip)

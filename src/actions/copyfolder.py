@@ -11,13 +11,14 @@ class CopyFolder(CopyFile):
         self.copy_subdirectories = tk.BooleanVar()
 
     def build_ui(self):
-        parent_frame = self.parent_frame
         super().build_ui()
+        parent_frame = self.parent_frame
         self.source_button["text"] = "Select Folder"
 
-        copy_subdirectories_checkbox = tk.Checkbutton(parent_frame, text="Copy Subdirectories",
+        copy_subdirectories_checkbox = tk.Checkbutton(self.checkbox_frame, text="Copy Subdirectories",
                                                       variable=self.copy_subdirectories)
-        copy_subdirectories_checkbox.pack(side=tk.LEFT)
+        copy_subdirectories_checkbox.pack(anchor=tk.NW)
+
 
     def select_source(self):
         file_path = filedialog.askdirectory()
@@ -41,3 +42,20 @@ class CopyFolder(CopyFile):
         command += f' "{self.source_path.get()}" "{self.destination_path.get()}"'
 
         return command
+
+    def create_tooltip(self):
+        tooltip = """
+        Initiates a folder copy operation:
+        
+          - Source: Choose the folder to copy using the "Select Folder" button.
+          - Destination: Select the destination folder using the "Select Folder" button.
+        
+          Options:
+        
+            - Suppress Overwrite: Prevents overwriting existing files with the same name.
+            - Copy Subdirectories: Includes subfolders and their contents within the source folder.
+            - Copy Attributes: Copies additional file information like permissions and timestamps.
+        
+          **Warning:** Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
+        """
+        self.explanatory_tooltip(tooltip)
