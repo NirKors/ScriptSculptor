@@ -235,7 +235,7 @@ class UIEngine:
         frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
 
     def create_tooltip(self, string, widget):
-        ToolTip(widget, msg=string, delay=1.0)
+        ToolTip(widget, msg=string, delay=0.3)
 
 
 def print_info(master, depth=1):
