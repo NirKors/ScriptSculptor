@@ -2,6 +2,7 @@
 import tkinter as tk
 from configparser import ConfigParser
 from tkinter import messagebox
+from tktooltip import ToolTip
 
 import action_handler
 from processing import Processing
@@ -232,6 +233,9 @@ class UIEngine:
 
         self.selected_frame = frame
         frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
+
+    def create_tooltip(self, string, widget):
+        ToolTip(widget, msg=string, delay=1.0)
 
 
 def print_info(master, depth=1):
