@@ -154,7 +154,7 @@ class UIEngine:
         action_handler.clear_frame(master_frame)
 
         # Create an instance of the selected action class
-        action = action_handler.create_action(selected_action)
+        action = action_handler.create_action(selected_action, self.dropdown_options)
         action.ui_engine = self
         action.parent_frame = master_frame
         action.build_ui()
@@ -235,7 +235,8 @@ class UIEngine:
         frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
 
     def create_tooltip(self, string, widget):
-        ToolTip(widget, msg=string, delay=0.3)
+        x_offset = -200
+        ToolTip(widget, msg=string, delay=0.3, x_offset=x_offset)
 
 
 def print_info(master, depth=1):

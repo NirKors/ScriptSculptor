@@ -1,6 +1,8 @@
+import configparser
+
 from actions.cancel_shutdown import CancelShutdown
 from actions.copyfile import CopyFile
-from actions.create import Create
+from actions.createfolder import CreateFolder
 from actions.deletefiles import DeleteFiles
 from actions.open import Open
 from actions.ping_website import PingWebsite
@@ -10,7 +12,8 @@ from actions.system_information import SystemInformation
 from actions.copyfolder import CopyFolder
 from actions.deletefolders import DeleteFolders
 
-def create_action(selected_action):
+
+def create_action(selected_action, dropdown_options):
     action_classes = {
         "Shutdown": Shutdown,
         "Sleep": Sleep,
@@ -19,7 +22,7 @@ def create_action(selected_action):
         "Copy Folder": CopyFolder,
         "Delete File(s)": DeleteFiles,
         "Delete Folder": DeleteFolders,
-        "Create": Create,
+        "Create": CreateFolder,
         "Ping Website": PingWebsite,
         "System Information": SystemInformation,
         "Cancel Shutdown": CancelShutdown,
@@ -27,7 +30,6 @@ def create_action(selected_action):
 
     action_class = action_classes.get(selected_action)
     return action_class()
-
 
 def clear_frame(frame):
     counter = 0

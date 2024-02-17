@@ -2,7 +2,7 @@ import tkinter as tk
 from .action import Action
 
 
-class Create(Action):
+class CreateFolder(Action):
     def __init__(self):
         super().__init__()
         self.file_or_folder = tk.StringVar(value="File")  # Default to creating a file
