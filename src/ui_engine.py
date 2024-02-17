@@ -9,15 +9,15 @@ from processing import Processing
 
 
 class UIEngine:
-    def __init__(self, master):
+    def __init__(self, master, config_path):
         self.master = master
         master.title("ScriptSculptor")
         master.configure(bg="black")
 
         config = ConfigParser()
-        config.read('config/configuration.ini')
+        config.read(f'{config_path}\\configuration.ini')
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
-        config.read('config/settings.ini')
+        config.read(f'{config_path}\\settings.ini')
 
         self.colors = config["colors"]
         self.processing = Processing()
