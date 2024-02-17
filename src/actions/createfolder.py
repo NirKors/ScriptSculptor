@@ -1,54 +1,77 @@
+import os
 import tkinter as tk
 from .action import Action
-
 
 class CreateFolder(Action):
     def __init__(self):
         super().__init__()
-        self.file_or_folder = tk.StringVar(value="File")  # Default to creating a file
-        self.name = tk.StringVar(value="New File")
-        self.location = tk.StringVar()
+        self.folder_path = tk.StringVar()
+        self.include_patterns = tk.StringVar()
+        self.exclude_patterns = tk.StringVar()
+        self.recursive = tk.BooleanVar()
+
+        self.recursive.set(False)
 
     def build_ui(self):
         parent_frame = self.parent_frame
-        # Create and return UI elements for configuring the create options
-        create_label = tk.Label(parent_frame, text="Create:")
-        create_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        create_options = ['File', 'Folder']
-        create_dropdown = tk.OptionMenu(parent_frame, self.file_or_folder, *create_options)
-        create_dropdown.pack(side=tk.LEFT, padx=(0, 5))
+        # Label and entry for folder path
+        path_label = tk.Label(parent_frame, text="Folder Path:")
+        path_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        name_label = tk.Label(parent_frame, text="Name:")
-        name_label.pack(side=tk.LEFT, padx=(0, 5))
+        path_entry = tk.Entry(parent_frame, textvariable=self.folder_path)
+        path_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
 
-        name_entry = tk.Entry(parent_frame, textvariable=self.name)
-        name_entry.pack(side=tk.LEFT, padx=(0, 5))
+        # Include and exclude pattern entries
+        include_label = tk.Label(parent_frame, text="Include Patterns:")
+        include_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        location_label = tk.Label(parent_frame, text="Location:")
-        location_label.pack(side=tk.LEFT, padx=(0, 5))
+        include_entry = tk.Entry(parent_frame, textvariable=self.include_patterns, width=20)
+        include_entry.pack(side=tk.LEFT, padx=(0, 5))
 
-        location_entry = tk.Entry(parent_frame, textvariable=self.location)
-        location_entry.pack(side=tk.LEFT, padx=(0, 5))
+        exclude_label = tk.Label(parent_frame, text="Exclude Patterns:")
+        exclude_label.pack(side=tk.LEFT, padx=(0, 5))
 
+        exclude_entry = tk.Entry(parent_frame, textvariable=self.exclude_patterns, width=20)
+        exclude_entry.pack(side=tk.LEFT, padx=(0, 5))
+
+        # Checkbox for recursive creation
+        recursive_checkbox = tk.Checkbutton(parent_frame, text="Recursive", variable=self.recursive)
+        recursive_checkbox.pack(side=tk.LEFT, padx=(0, 5))
+
+        tooltip = """
+        Creates folders based on the specified path and options:
+
+          - Folder Path: Enter the desired location for the new folder(s).
+          - Include Patterns: Use wildcards or separators to specify files/folders to include (optional).
+          - Exclude Patterns: Use wildcards or separators to specify files/folders to exclude (optional).
+          - Recursive: Check this box to create the folder structure recursively if needed.
+        """
+
+        self.explanatory_tooltip(tooltip)
 
     def check_for_errors(self):
-        # Check if name and location are provided
-        if not self.name.get() or not self.location.get():
-            return "Action: Create\nError: Name and location are required."
+        # Check if path is valid and writable
+        path = self.folder_path.get()
+        if not path:
+            return "Action: Create Folder\nError: Please specify a valid folder path."
+
+        # Check if parent directories exist if not recursive
+        if not self.recursive.get() and not os.path.exists(os.path.dirname(path)):
+            return "Action: Create Folder\nError: Parent directory does not exist and `Recursive` is not selected."
+
+        # TODO: Add checks for valid patterns (syntax, potential conflicts)
 
         return None
 
     def get_command_string(self):
-        command = "/create"
+        path = self.folder_path.get()
+        flags = ""
 
-        if self.file_or_folder.get() == "File":
-            command += " file"
-        else:
-            command += " folder"
+        if self.recursive.get():
+            flags += " /r"
 
-        command += f' "{self.name.get()}" "{self.location.get()}"'
+        # TODO: Generate flags for include/exclude patterns based on syntax and validation
 
-        return command
-
-
+        # Construct and return the `mkdir` command string
+        return f"mkdir {flags} \"{path}\""

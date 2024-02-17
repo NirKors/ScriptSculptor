@@ -8,6 +8,7 @@ def main():
     root = tk.Tk()
     # root.wm_attributes("-transparentcolor", 'grey')
     config_path = "C:\\Users\\nirko\\PycharmProjects\\ScriptSculptor\\config"
+    config_path = "C:\\Users\\Nir\\PycharmProjects\\ScriptSculptor\\config"
     app = UIEngine(root, config_path)
     root.mainloop()
 

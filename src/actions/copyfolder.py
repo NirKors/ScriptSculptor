@@ -19,7 +19,6 @@ class CopyFolder(CopyFile):
                                                       variable=self.copy_subdirectories)
         copy_subdirectories_checkbox.pack(anchor=tk.NW)
 
-
     def select_source(self):
         file_path = filedialog.askdirectory()
         self.source_path.set(file_path)

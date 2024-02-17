@@ -2,6 +2,7 @@
 import tkinter as tk
 from configparser import ConfigParser
 from tkinter import messagebox
+
 from tktooltip import ToolTip
 
 import action_handler
