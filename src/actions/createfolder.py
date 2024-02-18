@@ -1,6 +1,9 @@
 import os
 import tkinter as tk
+from tkinter import ttk
+
 from .action import Action
+
 
 class CreateFolder(Action):
     def __init__(self):
@@ -16,20 +19,20 @@ class CreateFolder(Action):
         parent_frame = self.parent_frame
 
         # Label and entry for folder path
-        path_label = tk.Label(parent_frame, text="Folder Path:")
+        path_label = ttk.Label(parent_frame, text="Folder Path:")
         path_label.pack(side=tk.LEFT, padx=(0, 5))
 
         path_entry = tk.Entry(parent_frame, textvariable=self.folder_path)
         path_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
 
         # Include and exclude pattern entries
-        include_label = tk.Label(parent_frame, text="Include Patterns:")
+        include_label = ttk.Label(parent_frame, text="Include Patterns:")
         include_label.pack(side=tk.LEFT, padx=(0, 5))
 
         include_entry = tk.Entry(parent_frame, textvariable=self.include_patterns, width=20)
         include_entry.pack(side=tk.LEFT, padx=(0, 5))
 
-        exclude_label = tk.Label(parent_frame, text="Exclude Patterns:")
+        exclude_label = ttk.Label(parent_frame, text="Exclude Patterns:")
         exclude_label.pack(side=tk.LEFT, padx=(0, 5))
 
         exclude_entry = tk.Entry(parent_frame, textvariable=self.exclude_patterns, width=20)

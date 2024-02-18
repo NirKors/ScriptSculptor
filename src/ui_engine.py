@@ -1,5 +1,6 @@
 # ui_engine.py
 import tkinter as tk
+import tkinter.ttk as ttk
 from configparser import ConfigParser
 from tkinter import messagebox
 
@@ -11,19 +12,30 @@ from processing import Processing
 
 class UIEngine:
     def __init__(self, master, config_path):
-        self.master = master
-        master.title("ScriptSculptor")
-        master.configure(bg="black")
+        """
+        Initializes the user interface engine.
 
+        Args:
+            master: The root window of the Tkinter application.
+            config_path: The path to the configuration directory.
+        """
+
+        self.master = master
+        self.master.title("ScriptSculptor")
+        self.master.configure(bg="black")
+
+        # Read configuration files
         config = ConfigParser()
         config.read(f'{config_path}\\configuration.ini')
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
         config.read(f'{config_path}\\settings.ini')
-
         self.colors = config["colors"]
+
+        # Setup processing and frame order
         self.processing = Processing()
         self.frame_order = []
 
+        # Calculate window dimensions and position
         window_width = 1200
         window_height = 600
         screen_width = master.winfo_screenwidth()
@@ -32,36 +44,60 @@ class UIEngine:
         y_coordinate = (screen_height - window_height) // 2
         master.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
-        top_buttons_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
-                                     background=self.colors["buttons_frame"], name="top_buttons_frame")
+        # Create UI elements
+        self._create_top_buttons_frame()
+        self._create_script_frame()
+        self._create_create_script_buttons_frame()
 
-        newFrameButton = tk.Button(top_buttons_frame, text="Add New Frame", command=self.create_new_frame)
+        # Initialize selected frame
+        self.selected_frame = None
+
+    def _create_top_buttons_frame(self):
+        """
+        Creates and configures the frame containing buttons for adding, deleting, and changing frame styles.
+        """
+
+        top_buttons_frame = ttk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
+                                      style="background.TFrame", name="top_buttons_frame")
+
+        newFrameButton = ttk.Button(top_buttons_frame, text="Add New Frame", command=self.create_new_frame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
 
-        deleteFrameButton = tk.Button(top_buttons_frame, text="Delete Frame", command=self.delete_frame)
+        deleteFrameButton = ttk.Button(top_buttons_frame, text="Delete Frame", command=self.delete_frame)
         deleteFrameButton.pack(side=tk.LEFT, padx=5)
 
-        reliefFrameButton = tk.Button(top_buttons_frame, text="Change Style", command=self.change_style)
+        reliefFrameButton = ttk.Button(top_buttons_frame, text="Change Style", command=self.change_style)
         reliefFrameButton.pack(side=tk.LEFT, padx=5)
 
         top_buttons_frame.pack(anchor="nw", pady=5, padx=5)
 
-        self.selected_frame = None
+    def _create_script_frame(self):
+        """
+        Creates and configures the frame where the script content is displayed.
+        """
 
-        scriptFrame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
-                               background=self.colors["background"], name="script_frame")
+        scriptFrame = ttk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
+                                style="background.TFrame", name="script_frame")
         scriptFrame.pack(expand=True, fill="both")
 
         self.scriptFrame = scriptFrame
 
-        create_script_button_frame = tk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
-                                              background=self.colors["buttons_frame"], name="create_button_frame")
-        check_script_button = tk.Button(create_script_button_frame, text="Check For Errors",
-                                        command=lambda: self.check_for_errors())
+    def _create_create_script_buttons_frame(self):
+        """
+        Creates and configures the frame containing buttons for checking errors and creating the script.
+        """
+
+        create_script_button_frame = ttk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
+                                               style="background.TFrame", name="create_button_frame")
+
+        check_script_button = ttk.Button(create_script_button_frame, text="Check For Errors",
+                                         command=lambda: self.check_for_errors())
         check_script_button.pack(side=tk.LEFT, padx=5)
-        create_script_button = tk.Button(create_script_button_frame, text="Create Script",
-                                         command=lambda: self.create_script())
+
+        create_script_button = ttk.Button(create_script_button_frame, text="Create Script",
+                                          command=lambda: self.create_script())
         create_script_button.pack(side=tk.LEFT, padx=5)
+
         create_script_button_frame.pack(anchor="se")
 
     def delete_frame(self):
@@ -73,14 +109,15 @@ class UIEngine:
         return
 
     def create_new_frame(self):
-        # New frame
-        newFrame = tk.Frame(self.scriptFrame, borderwidth=15, relief=self.processing.get_relief(),
-                            background=self.colors["script_frame"])
+        # New frame using ttk.Frame with the specified style
+        newFrame = ttk.Frame(self.scriptFrame, style="script_frame.TFrame", borderwidth=15,
+                             relief=self.processing.get_relief())
 
-        label = tk.Label(newFrame, text="Action:", padx=10)
+        # ttk.Label for consistency
+        label = ttk.Label(newFrame, text="Action:")
         label.pack(side=tk.LEFT)
 
-        # Dropdown Menu
+        # ttk.OptionMenu isn't available, keep tk.OptionMenu
         selected_action = tk.StringVar(newFrame)
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
@@ -88,21 +125,21 @@ class UIEngine:
                                         self.handle_action_selection(selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
 
-        # Arrow buttons for reorganizing frames
-        button_frame = tk.Frame(newFrame, name="navigation_frame")
-        move_up_button = tk.Button(button_frame, text="↑", command=lambda frame=newFrame: self.move_frame_up(frame),
-                                   font="bold")
+        # Arrow buttons using ttk.Button with the specified style
+        button_frame = ttk.Frame(newFrame, style="buttons_frame.TFrame", name="navigation_frame")
+        move_up_button = ttk.Button(button_frame, text="↑", style="buttons_frame.TButton",
+                                    command=lambda frame=newFrame: self.move_frame_up(frame), width=1)
         move_up_button.pack(side=tk.TOP)
-        move_down_button = tk.Button(button_frame, text="↓", command=lambda frame=newFrame: self.move_frame_down(frame),
-                                     font="bold")
+        move_down_button = ttk.Button(button_frame, text="↓", style="buttons_frame.TButton",
+                                      command=lambda frame=newFrame: self.move_frame_down(frame), width=1)
         move_down_button.pack(side=tk.TOP)
         button_frame.pack(side=tk.RIGHT)
         button_frame.widgetName = "nav_button_frame"
 
-        # Bind click event to the frame
+        # Event binding remains the same
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
 
-        # Bind click event to its children
+        # Pack and handle action selection
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
         self.handle_action_selection(self.dropdown_options[0], newFrame)
         self.frame_order.append(newFrame)
@@ -171,7 +208,7 @@ class UIEngine:
             relief = self.processing.get_relief()
 
         # Apply relief to the parent frame
-        if isinstance(parent, tk.Frame):
+        if isinstance(parent, ttk.Frame) or isinstance(parent, tk.Frame):
             parent.configure(relief=relief)
 
         # Recursively apply relief to children frames
@@ -221,19 +258,17 @@ class UIEngine:
 
     def select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
-        if frame == self.selected_frame:
-            return
-        if frame.widgetName == "nav_button_frame":
+        if frame == self.selected_frame or frame.widgetName == "nav_button_frame":
             return
         if frame.master != self.scriptFrame:
             self.select_frame(frame.master)
             return
 
         if self.selected_frame:
-            self.selected_frame.configure(bg=self.colors["script_frame"])  # Reset the previously selected frame color
+            self.selected_frame.configure(style="script_frame.TFrame")  # Reset the previously selected frame color
 
         self.selected_frame = frame
-        frame.configure(bg=self.colors["selected_frame_highlight"])  # Highlight the selected frame
+        frame.configure(style="selected_frame_highlight.TFrame")  # Highlight the selected frame
 
     def create_tooltip(self, string, widget):
         x_offset = -200

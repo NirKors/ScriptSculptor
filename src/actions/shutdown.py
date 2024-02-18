@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import ttk
+
 from .action import Action
 
 
@@ -16,7 +18,7 @@ class Shutdown(Action):
     def build_ui(self):
         parent_frame = self.parent_frame
         # Create and return UI elements for configuring shutdown options
-        time_label = tk.Label(parent_frame, text="Time before shutdown:")
+        time_label = ttk.Label(parent_frame, text="Time before shutdown:")
         time_label.pack(side=tk.LEFT, padx=(0, 5))
 
         time_entry = tk.Entry(parent_frame, textvariable=self.delay)
@@ -33,8 +35,6 @@ class Shutdown(Action):
 
         force_checkbox = tk.Checkbutton(checkbox_frame, text="Force Shutdown", variable=self.force)
         force_checkbox.pack(anchor=tk.NW)
-
-        self.ui_engine.create_tooltip("test", time_label)
 
         tooltip = """
         Initiates a system shutdown with configurable delay:

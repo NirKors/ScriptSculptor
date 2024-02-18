@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 
 from .action import Action
 
@@ -17,7 +17,7 @@ class CopyFile(Action):
     def build_ui(self):
         parent_frame = self.parent_frame
         # Create and return UI elements for configuring copy options
-        source_label = tk.Label(parent_frame, text="Source Path:")
+        source_label = ttk.Label(parent_frame, text="Source Path:")
         source_label.pack(side=tk.LEFT, padx=(0, 5))
 
         source_entry = tk.Entry(parent_frame, textvariable=self.source_path)
@@ -27,7 +27,7 @@ class CopyFile(Action):
         source_button.pack(side=tk.LEFT, padx=(0, 5))
         self.source_button = source_button
 
-        destination_label = tk.Label(parent_frame, text="Destination Path:")
+        destination_label = ttk.Label(parent_frame, text="Destination Path:")
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
 
         destination_entry = tk.Entry(parent_frame, textvariable=self.destination_path)
