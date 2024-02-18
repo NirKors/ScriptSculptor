@@ -2,7 +2,7 @@ import tkinter as tk
 from .action import Action
 
 
-class DeleteFolders(Action):
+class DeleteFolder(Action):
     def __init__(self):
         pass
 

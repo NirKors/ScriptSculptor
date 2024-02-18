@@ -4,7 +4,7 @@ from tkinter import filedialog, ttk
 from .action import Action
 
 
-class CopyFile(Action):
+class CopyFiles(Action):
     def __init__(self):
         super().__init__()
         self.source_button = None
@@ -61,7 +61,7 @@ class CopyFile(Action):
     def check_for_errors(self):
         # Check if source and destination paths are provided
         if not self.source_path.get() or not self.destination_path.get():
-            if type(self) == CopyFile:
+            if type(self) == CopyFiles:
                 action_type = "File"
             else:
                 action_type = "Folder"

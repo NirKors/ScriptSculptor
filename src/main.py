@@ -20,6 +20,7 @@ def main():
     style.configure("background.TFrame", padding=6, background=colors["background"])
     style.configure("script_frame.TFrame", padding=6, background=colors["script_frame"])
     style.configure("selected_frame_highlight.TFrame", padding=6, background=colors["selected_frame_highlight"])
+    style.configure("TLabel", background=colors["labels"])
 
     style.map("TButton",
               background=[("active", "white"), ("!active", "black")],

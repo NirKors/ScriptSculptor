@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import filedialog
 
-from .copyfile import CopyFile
+from .copyfiles import CopyFiles
 
 
-class CopyFolder(CopyFile):
+class CopyFolder(CopyFiles):
 
     def __init__(self):
         super().__init__()
