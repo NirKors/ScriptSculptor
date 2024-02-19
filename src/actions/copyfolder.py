@@ -12,12 +12,8 @@ class CopyFolder(CopyFiles):
 
     def build_ui(self):
         super().build_ui()
-        parent_frame = self.parent_frame
         self.source_button["text"] = "Select Folder"
-
-        copy_subdirectories_checkbox = tk.Checkbutton(self.checkbox_frame, text="Copy Subdirectories",
-                                                      variable=self.copy_subdirectories)
-        copy_subdirectories_checkbox.pack(anchor=tk.NW)
+        self.add_flag_options("Copy Subdirectories", self.copy_attributes)
 
     def select_source(self):
         file_path = filedialog.askdirectory()

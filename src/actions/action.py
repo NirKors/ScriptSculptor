@@ -1,10 +1,12 @@
 from tkinter import ttk
+import tkinter as tk
 
 
 class Action:
     def __init__(self):
         self.ui_engine = None
         self.parent_frame = None
+        self.options_frame = None
 
     def build_ui(self):
         raise NotImplementedError("Subclasses must implement build_ui method")
@@ -14,6 +16,25 @@ class Action:
 
     def get_command_string(self):
         raise NotImplementedError("Subclasses must implement get_command_string method")
+
+    def add_flag_options(self, text, variable):
+        """
+        Adds a checkbutton representing a flag option to the UI.
+
+        Args:
+            text (str): The text to display next to the checkbutton.
+            variable (tk.BooleanVar): The BooleanVar object tracking the state of the checkbutton.
+
+        Returns:
+            ttk.Checkbutton: The created checkbutton widget.
+        """
+        if not self.options_frame:
+            self.options_frame = ttk.Frame(self.parent_frame)
+            self.options_frame.pack(side=tk.LEFT)
+
+        saved_var = ttk.Checkbutton(self.options_frame, text=text,
+                                    variable=variable)
+        saved_var.pack(anchor=tk.NW)
 
     def explanatory_tooltip(self, text):
         # Create the tooltip frame

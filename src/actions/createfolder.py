@@ -31,8 +31,7 @@ class CreateFolder(Action):
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
         # Checkbox for recursive creation
-        recursive_checkbox = tk.Checkbutton(parent_frame, text="Recursive", variable=self.recursive)
-        recursive_checkbox.pack(side=tk.LEFT, padx=(0, 5))
+        self.add_flag_options("Recursive", self.recursive)
 
         tooltip = """
         Creates folders based on the specified path and options:

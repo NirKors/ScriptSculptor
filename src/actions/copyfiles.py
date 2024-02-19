@@ -36,15 +36,8 @@ class CopyFiles(Action):
         folder_button = tk.Button(parent_frame, text="Select Folder", command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
-        self.checkbox_frame = tk.Frame(parent_frame)
-        self.checkbox_frame.pack(side=tk.LEFT)
-
-        suppress_overwrite_checkbox = tk.Checkbutton(self.checkbox_frame, text="Suppress Overwrite",
-                                                     variable=self.suppress_overwrite)
-        suppress_overwrite_checkbox.pack(anchor=tk.NW)
-        copy_attributes_checkbox = tk.Checkbutton(self.checkbox_frame, text="Copy Attributes",
-                                                  variable=self.copy_attributes)
-        copy_attributes_checkbox.pack(anchor=tk.NW)
+        self.add_flag_options("Suppress Overwrite", self.suppress_overwrite)
+        self.add_flag_options("Copy Attributes", self.copy_attributes)
 
         self.create_tooltip()
 

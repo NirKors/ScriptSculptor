@@ -28,13 +28,8 @@ class Shutdown(Action):
         time_unit_dropdown = tk.OptionMenu(parent_frame, self.time_unit, *time_unit_options)
         time_unit_dropdown.pack(side=tk.LEFT, padx=(0, 5))
 
-        checkbox_frame = tk.Frame(parent_frame)
-        checkbox_frame.pack(side=tk.LEFT)
-        restart_checkbox = tk.Checkbutton(checkbox_frame, text="Restart", variable=self.restart)
-        restart_checkbox.pack(anchor=tk.NW)
-
-        force_checkbox = tk.Checkbutton(checkbox_frame, text="Force Shutdown", variable=self.force)
-        force_checkbox.pack(anchor=tk.NW)
+        self.add_flag_options("Restart", self.restart)
+        self.add_flag_options("Force Shutdown", self.force)
 
         tooltip = """
         Initiates a system shutdown with configurable delay:
