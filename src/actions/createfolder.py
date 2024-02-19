@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 
 from .action import Action
 
@@ -8,6 +8,7 @@ from .action import Action
 class CreateFolder(Action):
     def __init__(self):
         super().__init__()
+        self.path_entry = None
         self.folder_path = tk.StringVar()
         self.include_patterns = tk.StringVar()
         self.exclude_patterns = tk.StringVar()
@@ -22,21 +23,12 @@ class CreateFolder(Action):
         path_label = ttk.Label(parent_frame, text="Folder Path:")
         path_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        path_entry = tk.Entry(parent_frame, textvariable=self.folder_path)
+        path_entry = ttk.Entry(parent_frame, textvariable=self.folder_path)
         path_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
+        self.path_entry = path_entry
 
-        # Include and exclude pattern entries
-        include_label = ttk.Label(parent_frame, text="Include Patterns:")
-        include_label.pack(side=tk.LEFT, padx=(0, 5))
-
-        include_entry = tk.Entry(parent_frame, textvariable=self.include_patterns, width=20)
-        include_entry.pack(side=tk.LEFT, padx=(0, 5))
-
-        exclude_label = ttk.Label(parent_frame, text="Exclude Patterns:")
-        exclude_label.pack(side=tk.LEFT, padx=(0, 5))
-
-        exclude_entry = tk.Entry(parent_frame, textvariable=self.exclude_patterns, width=20)
-        exclude_entry.pack(side=tk.LEFT, padx=(0, 5))
+        folder_button = tk.Button(parent_frame, text="Select Folder", command=self.select_destination)
+        folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
         # Checkbox for recursive creation
         recursive_checkbox = tk.Checkbutton(parent_frame, text="Recursive", variable=self.recursive)
@@ -46,8 +38,6 @@ class CreateFolder(Action):
         Creates folders based on the specified path and options:
 
           - Folder Path: Enter the desired location for the new folder(s).
-          - Include Patterns: Use wildcards or separators to specify files/folders to include (optional).
-          - Exclude Patterns: Use wildcards or separators to specify files/folders to exclude (optional).
           - Recursive: Check this box to create the folder structure recursively if needed.
         """
 
@@ -63,9 +53,12 @@ class CreateFolder(Action):
         if not self.recursive.get() and not os.path.exists(os.path.dirname(path)):
             return "Action: Create Folder\nError: Parent directory does not exist and `Recursive` is not selected."
 
-        # TODO: Add checks for valid patterns (syntax, potential conflicts)
-
         return None
+
+    def select_destination(self):
+        folder_path = filedialog.askdirectory()
+        self.path_entry.delete(0, tk.END)
+        self.path_entry.insert(0, folder_path)
 
     def get_command_string(self):
         path = self.folder_path.get()
@@ -74,7 +67,5 @@ class CreateFolder(Action):
         if self.recursive.get():
             flags += " /r"
 
-        # TODO: Generate flags for include/exclude patterns based on syntax and validation
-
         # Construct and return the `mkdir` command string
-        return f"mkdir {flags} \"{path}\""
+        return f"/mkdir {flags} \"{path}\""

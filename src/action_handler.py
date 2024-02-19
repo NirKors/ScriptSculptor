@@ -8,6 +8,8 @@ from actions.sleep import Sleep
 from actions.system_information import SystemInformation
 from actions.copyfolder import CopyFolder
 from actions.deletefolder import DeleteFolder
+from actions.createfolder import CreateFolder
+
 
 
 def create_action(selected_action, dropdown_options):
