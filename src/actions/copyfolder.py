@@ -13,7 +13,7 @@ class CopyFolder(CopyFiles):
     def build_ui(self):
         super().build_ui()
         self.source_button["text"] = "Select Folder"
-        self.add_flag_options("Copy Subdirectories", self.copy_attributes)
+        self.add_flag_options("Copy Subdirectories", self.copy_subdirectories)
 
     def select_source(self):
         file_path = filedialog.askdirectory()
