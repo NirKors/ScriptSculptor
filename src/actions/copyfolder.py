@@ -18,7 +18,6 @@ class CopyFolder(CopyFiles):
     def select_source(self):
         file_path = filedialog.askdirectory()
         self.source_path.set(file_path)
-        # Use the selected file path as needed
 
     def get_command_string(self):
         command = "/copy"
@@ -29,7 +28,7 @@ class CopyFolder(CopyFiles):
             command += " /-Y"
 
         if self.copy_attributes.get():
-            command += " /K"  # Copy attributes, reset read-only attributes
+            command += " /K"
 
         if self.copy_subdirectories.get():
             command += " /S"
@@ -42,15 +41,19 @@ class CopyFolder(CopyFiles):
         tooltip = """
         Initiates a folder copy operation:
         
-          - Source: Choose the folder to copy using the "Select Folder" button.
-          - Destination: Select the destination folder using the "Select Folder" button.
+        Paths:
         
-          Options:
+            - Source: Choose the folder to copy using the "Select Folder" button.
+            - Destination: Select the destination folder using the "Select Folder" button.
+        
+        Options:
         
             - Suppress Overwrite: Prevents overwriting existing files with the same name.
             - Copy Subdirectories: Includes subfolders and their contents within the source folder.
             - Copy Attributes: Copies additional file information like permissions and timestamps.
         
-          **Warning:** Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
+        Warning!
+        
+            - Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
         """
         self.explanatory_tooltip(tooltip)

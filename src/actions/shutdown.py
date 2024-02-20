@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 from .action import Action
 
@@ -32,18 +32,24 @@ class Shutdown(Action):
         self.add_flag_options("Force Shutdown", self.force)
 
         tooltip = """
-        Initiates a system shutdown with configurable delay:
-
-          - Specify the delay value in the entry field.
-          - Choose the time unit (seconds, minutes, hours, days).
-          
-          Executing this command will trigger a system shutdown after the chosen delay:
-
-          - Setting a delay will trigger shutdown at that time in the future.
-          - 'Restart' option reboots the computer after shutdown.
-          - 'Force Shutdown' option abruptly terminates running applications.
-
-        **Warning:** Force Shutdown may lead to data loss.
+        This command shuts down your computer.
+        
+        Options:
+        
+            - Force Shutdown: Terminates all running programs and processes immediately. Use with caution, as unsaved data may be lost.
+            - Restart: Shuts down the computer and automatically restarts it.
+            - Log Off: Closes all open programs and user sessions, but keeps the computer running.
+        
+        Important Points:
+        
+            - Save any unsaved work before proceeding, as this action cannot be undone.
+            - If you're not certain about shutting down, consider using the Log Off option instead.
+            - Force Shutdown should only be used as a last resort, as it can potentially lead to data corruption.
+        
+        Warning!
+                
+            - Force Shutdown can cause data loss if unsaved files are open.
+            - Always attempt a normal shutdown or log off before resorting to Force Shutdown.
         """
 
         self.explanatory_tooltip(tooltip)
@@ -56,6 +62,13 @@ class Shutdown(Action):
 
         except ValueError:
             return "Action: Shutdown\nError: Invalid delay value. Please enter a non-negative numerical value."
+
+        if self.force:
+            message = "Warning: Enabling `Force Shutdown` can cause immediate termination of all programs and " \
+                      "processes without warning, potentially leading to data loss and system instability. "
+            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
+            if not response:
+                return 2
         return None
 
     def get_command_string(self):

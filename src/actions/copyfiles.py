@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 
 from .action import Action
 
@@ -60,6 +60,12 @@ class CopyFiles(Action):
                 action_type = "Folder"
             return f"Action: Copy {action_type}\nError: Source and destination paths are required."
 
+        if self.suppress_overwrite.get():
+            message = "Warning: Selecting 'Suppress Overwrite' will automatically replace existing files in the " \
+                      "destination folder. Ensure you intended to overwrite these files before proceeding. "
+            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
+            if not response:
+                return 2
         return None
 
     def get_command_string(self):
@@ -80,15 +86,19 @@ class CopyFiles(Action):
     def create_tooltip(self):
         tooltip = """
         Initiates a file copy operation:
+        
+        Paths:
 
-          - Source: Choose the file to copy using the "Select File(s)" button.
-          - Destination: Select the destination folder using the "Select Folder" button.
+            - Source: Choose the file to copy using the "Select File(s)" button.
+            - Destination: Select the destination folder using the "Select Folder" button.
 
-          Options:
-
+        Options:
+        
             - Suppress Overwrite: Prevents overwriting existing files with the same name.
             - Copy Attributes: Copies additional file information like permissions and timestamps.
 
-          **Warning:** Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
+        Warning!
+        
+            - Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
         """
         self.explanatory_tooltip(tooltip)
