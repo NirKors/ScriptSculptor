@@ -1,5 +1,9 @@
-from tkinter import ttk
 import tkinter as tk
+from tkinter import ttk, messagebox
+
+
+def warn(message):
+    return messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
 
 
 class Action:
@@ -12,6 +16,9 @@ class Action:
         raise NotImplementedError("Subclasses must implement build_ui method")
 
     def check_for_errors(self):
+        raise NotImplementedError("Subclasses must implement build_ui method")
+
+    def check_for_warnings(self):
         raise NotImplementedError("Subclasses must implement build_ui method")
 
     def get_command_string(self):

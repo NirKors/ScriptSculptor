@@ -26,5 +26,8 @@ class CancelShutdown(Action):
     def check_for_errors(self):
         pass
 
+    def check_for_warnings(self):
+        return True
+
     def get_command_string(self):
         return "/shutdown /a"

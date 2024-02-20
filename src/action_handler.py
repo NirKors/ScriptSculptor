@@ -11,7 +11,6 @@ from actions.deletefolder import DeleteFolder
 from actions.createfolder import CreateFolder
 
 
-
 def create_action(selected_action, dropdown_options):
     action_classes = {option: globals().get(option.replace(' ', '')) for option in dropdown_options}
     action_class = action_classes.get(selected_action)

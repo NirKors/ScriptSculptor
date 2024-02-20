@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk
 
-from .action import Action
+from .action import Action, warn
 
 
 class Shutdown(Action):
@@ -36,7 +36,8 @@ class Shutdown(Action):
         
         Options:
         
-            - Force Shutdown: Terminates all running programs and processes immediately. Use with caution, as unsaved data may be lost.
+            - Force Shutdown: Terminates all running programs and processes immediately.
+              Use with caution, as unsaved data may be lost.
             - Restart: Shuts down the computer and automatically restarts it.
             - Log Off: Closes all open programs and user sessions, but keeps the computer running.
         
@@ -63,13 +64,14 @@ class Shutdown(Action):
         except ValueError:
             return "Action: Shutdown\nError: Invalid delay value. Please enter a non-negative numerical value."
 
-        if self.force:
-            message = "Warning: Enabling `Force Shutdown` can cause immediate termination of all programs and " \
-                      "processes without warning, potentially leading to data loss and system instability. "
-            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
-            if not response:
-                return 2
         return None
+
+    def check_for_warnings(self):
+        if self.force.get():
+            message = "Warning: Selecting 'Suppress Overwrite' will automatically replace existing files in the " \
+                      "destination folder. Ensure you intended to overwrite these files before proceeding. "
+            return warn(message)
+        return True
 
     def get_command_string(self):
         delay_value = int(self.delay.get())

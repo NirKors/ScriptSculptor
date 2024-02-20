@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import filedialog, ttk, messagebox
+from tkinter import filedialog, ttk
 
-from .action import Action
+from .action import Action, warn
 
 
 class CopyFiles(Action):
@@ -60,13 +60,14 @@ class CopyFiles(Action):
                 action_type = "Folder"
             return f"Action: Copy {action_type}\nError: Source and destination paths are required."
 
+        return None
+
+    def check_for_warnings(self):
         if self.suppress_overwrite.get():
             message = "Warning: Selecting 'Suppress Overwrite' will automatically replace existing files in the " \
                       "destination folder. Ensure you intended to overwrite these files before proceeding. "
-            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
-            if not response:
-                return 2
-        return None
+            return warn(message)
+        return True
 
     def get_command_string(self):
         command = "/copy"

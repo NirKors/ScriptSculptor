@@ -223,8 +223,7 @@ class UIEngine:
             child.bind("<Button-1>", lambda event, frame=widget: self.select_frame(frame))
             self.bind_children_click(child)
 
-    # TODO: checking for script and then continuing causes warnings twice.
-    def check_for_errors(self, create_call=False):
+    def check_for_errors(self, create_call=False):  # TODO: Split to processing
         errors = []
         values = self.scriptFrame.children.values()
         if not values:
@@ -252,8 +251,10 @@ class UIEngine:
         if self.check_for_errors(True):
             try:
                 commands = []
-                for frame in self.frame_order:
-                    commands.append(frame.action.get_command_string())
+                for action in (frame.action for frame in self.frame_order):
+                    if not action.check_for_warnings():
+                        return
+                    commands.append(action.get_command_string())
                 self.processing.save_script(commands)
 
             except Exception as e:

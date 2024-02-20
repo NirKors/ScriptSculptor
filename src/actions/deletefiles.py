@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import filedialog, ttk, messagebox
+from tkinter import filedialog, ttk
 
-from .action import Action
+from .action import Action, warn
 
 
 class DeleteFiles(Action):
@@ -87,21 +87,21 @@ class DeleteFiles(Action):
         if not self.destination_path.get():
             return f"Action: Delete Files\nError: Destination path is required."
 
+        return None
+
+    def check_for_warnings(self):
         if self.prompt_confirmation.get() == 2:
             message = "Warning: Enabling `Quiet Mode` will suppress confirmation prompts and progress updates during " \
-                       "deletions. Ensure absolute certainty before proceeding to avoid unintended data loss. "
-            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
-            if not response:
-                return 2
+                      "deletions. Ensure absolute certainty before proceeding to avoid unintended data loss. "
+            if not warn(message):
+                return False
 
-        if self.recursive.get():
-            message = "Warning: Enabling recursive deletion permanently removes all files and subfolders within the " \
-                      "chosen path. Use with caution to avoid unintended data loss. "
-            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
-            if not response:
-                return 2
-
-        return None
+        if self.recursive.get():  # TODO: Test how it works in terms of selecting a file or selecting a folder.
+            message = "Warning: Enabling `Recursive` deletion permanently removes all files in the selected folder " \
+                      "and the subfolders within the chosen path. Use with caution to avoid unintended data loss. "
+            if not warn(message):
+                return False
+        return True
 
     def get_command_string(self):
         command = "/del"

@@ -54,6 +54,9 @@ class CreateFolder(Action):
 
         return None
 
+    def check_for_warnings(self):
+        return True
+
     def select_destination(self):
         folder_path = filedialog.askdirectory()
         self.path_entry.delete(0, tk.END)
