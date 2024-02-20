@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 
 from .action import Action
 
@@ -7,10 +7,12 @@ from .action import Action
 class DeleteFiles(Action):
     def __init__(self):
         super().__init__()
+        self.prompt_confirmation = tk.IntVar()
         self.recursive = tk.BooleanVar()
-        self.checkbox_frame = None
-        self.prompt_confirmation = None
         self.destination_path = tk.StringVar()
+        self.not_flag = tk.BooleanVar()
+        self.read_only = tk.BooleanVar()
+        self.hidden = tk.BooleanVar()
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -19,15 +21,59 @@ class DeleteFiles(Action):
         destination_label = ttk.Label(parent_frame, text="Deletion Path:")
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        destination_entry = tk.Entry(parent_frame, textvariable=self.destination_path)
+        destination_entry = ttk.Entry(parent_frame, textvariable=self.destination_path)
         destination_entry.pack(side=tk.LEFT, padx=(0, 5))
 
         folder_button = tk.Button(parent_frame, text="Select Path", command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
+        radio_frame = ttk.Frame(parent_frame)
+        radio_frame.pack(side=tk.LEFT, padx=5)
+        prompt = ttk.Radiobutton(radio_frame, text="Prompt For Confirmation", variable=self.prompt_confirmation,
+                                 value=1)
+        prompt.pack(anchor=tk.NW)
+        silent = ttk.Radiobutton(radio_frame, text="Quiet Mode", variable=self.prompt_confirmation, value=2)
+        silent.pack(anchor=tk.NW)
+
         self.add_flag_options("Recursive", self.recursive)
 
-        tooltip = "***Warning: If you use del to delete a file from your disk, you can't retrieve it."
+        file_options = ttk.Frame(self.parent_frame)
+        file_options.pack(side=tk.LEFT, padx=5)
+
+        checkbox_n = ttk.Checkbutton(file_options, text="Not", variable=self.not_flag)
+        checkbox_n.pack(side=tk.LEFT)
+        checkbox_ro = ttk.Checkbutton(file_options, text="Read Only", variable=self.read_only)
+        checkbox_ro.pack(anchor=tk.NW)
+        checkbox_h = ttk.Checkbutton(file_options, text="Hidden", variable=self.hidden)
+        checkbox_h.pack(anchor=tk.NW)
+
+        self.prompt_confirmation.set(True)
+
+        tooltip = """
+        This command is used to permanently delete files and directories from your computer.
+        
+        Options:    
+            
+            - `Prompt For Confirmation`: Prompts for confirmation before deleting each file.
+            - `Quiet Mode`: Deletes files silently without any prompts.
+            - `Recursive`: Recursively deletes files in the directory, and in subdirectories within the specified path.
+        
+        Important Points:
+        
+            - Double-check the files and paths you're targeting before deleting.
+            - Consider using the `/p` option for confirmation if unsure.
+        
+        Additional options available in this tool:
+        
+            - Not: Select files based on the "Not" attribute (opposite of selected attributes).
+            - Read Only: Include read-only files in the deletion.
+            - Hidden: Include hidden files in the deletion.
+        
+        Warning!
+        
+            - Using options like "Not", "Read Only", and "Hidden" can unintentionally target unintended files.
+              Be cautious and review your selections before executing the deletion.
+        """
 
         self.explanatory_tooltip(tooltip)
 
@@ -39,29 +85,45 @@ class DeleteFiles(Action):
     def check_for_errors(self):
         # Check if source and destination paths are provided
         if not self.destination_path.get():
-            return f"Action: Delete Files\nError: Destination paths are required."
+            return f"Action: Delete Files\nError: Destination path is required."
+
+        if self.prompt_confirmation.get() == 2:
+            message = "Warning: Enabling `Quiet Mode` will suppress confirmation prompts and progress updates during " \
+                       "deletions. Ensure absolute certainty before proceeding to avoid unintended data loss. "
+            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
+            if not response:
+                return 2
+
+        if self.recursive.get():
+            message = "Warning: Enabling recursive deletion permanently removes all files and subfolders within the " \
+                      "chosen path. Use with caution to avoid unintended data loss. "
+            response = messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
+            if not response:
+                return 2
 
         return None
 
     def get_command_string(self):
-        command = "/copy"
+        command = "/del"
+        if self.prompt_confirmation.get() == 1:
+            command += " /p"
+        else:
+            command += " /q"
 
-        print(self.recursive.get())
+        if self.recursive.get():
+            command += " /s"
 
+        if self.read_only.get():
+            if self.not_flag.get():
+                command += " /-r"
+            else:
+                command += " /r"
+
+        if self.hidden.get():
+            if self.not_flag.get():
+                command += " /-h"
+            else:
+                command += " /h"
+
+        command += f" {self.destination_path.get()}"
         return command
-
-    def create_tooltip(self):
-        tooltip = """
-        Initiates a file copy operation:
-
-          - Source: Choose the file to copy using the "Select File(s)" button.
-          - Destination: Select the destination folder using the "Select Folder" button.
-
-          Options:
-
-            - Suppress Overwrite: Prevents overwriting existing files with the same name.
-            - Copy Attributes: Copies additional file information like permissions and timestamps.
-
-          **Warning:** Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
-        """
-        self.explanatory_tooltip(tooltip)
