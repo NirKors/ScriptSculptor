@@ -37,7 +37,7 @@ class OpenFiles(Action):
 
     def check_for_errors(self):
         if not self.source_path.get():
-            return f"Action: Open Files\nError: Source path is required."
+            return "Source path is required."
 
         return None
 

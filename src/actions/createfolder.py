@@ -46,11 +46,11 @@ class CreateFolder(Action):
         # Check if path is valid and writable
         path = self.folder_path.get()
         if not path:
-            return "Action: Create Folder\nError: Please specify a valid folder path."
+            return "Please specify a valid folder path."
 
         # Check if parent directories exist if not recursive
         if not self.recursive.get() and not os.path.exists(os.path.dirname(path)):
-            return "Action: Create Folder\nError: Parent directory does not exist and `Recursive` is not selected."
+            return "Parent directory does not exist and `Recursive` is not selected."
 
         return None
 

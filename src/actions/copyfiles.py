@@ -55,7 +55,7 @@ class CopyFiles(Action):
                 action_type = "File"
             else:
                 action_type = "Folder"
-            return f"Action: Copy {action_type}\nError: Source and destination paths are required."
+            return "Source and destination paths are required."
 
         return None
 

@@ -86,7 +86,7 @@ class DeleteFiles(Action):
     def check_for_errors(self):
         # Check if source and destination paths are provided
         if not self.destination_path.get():
-            return f"Action: Delete Files\nError: Destination path is required."
+            return "Destination path is required."
 
         return None
 

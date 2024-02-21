@@ -236,7 +236,7 @@ class UIEngine:
                 if check == 2:
                     return False
                 else:
-                    errors.append(check)
+                    errors.append(f"Action - {frame.action.name}\nError: {check}")
         if errors:
             error_message = "\n\n".join(errors)
             messagebox.showerror("Error Check", error_message)

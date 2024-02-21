@@ -63,7 +63,7 @@ class Shutdown(Action):
                 raise ValueError
 
         except ValueError:
-            return "Action: Shutdown\nError: Invalid delay value. Please enter a non-negative numerical value."
+            return "Invalid delay value. Please enter a non-negative numerical value."
 
         return None
 
