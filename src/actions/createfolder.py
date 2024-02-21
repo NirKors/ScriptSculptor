@@ -70,4 +70,4 @@ class CreateFolder(Action):
             flags += " /r"
 
         # Construct and return the `mkdir` command string
-        return f"/mkdir {flags} \"{path}\""
+        return f"mkdir {flags} \"{path}\""

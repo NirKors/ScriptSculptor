@@ -91,7 +91,7 @@ class DeleteFolder(Action):
         return True
 
     def get_command_string(self):
-        command = "/rmdir"
+        command = "rmdir"
         if self.recursive.get():
             command += " /s"
 

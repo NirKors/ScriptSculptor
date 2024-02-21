@@ -105,7 +105,7 @@ class DeleteFiles(Action):
         return True
 
     def get_command_string(self):
-        command = "/del"
+        command = "del"
         if self.prompt_confirmation.get() == 1:
             command += " /p"
         else:

@@ -108,7 +108,7 @@ class UIEngine:
             self.selected_frame = None
         return
 
-    def create_new_frame(self):
+    def create_new_frame(self):  # TODO: Split logic
         # New frame using ttk.Frame with the specified style
         newFrame = ttk.Frame(self.scriptFrame, style="script_frame.TFrame", borderwidth=15,
                              relief=self.processing.get_relief())
@@ -254,7 +254,13 @@ class UIEngine:
                 for action in (frame.action for frame in self.frame_order):
                     if not action.check_for_warnings():
                         return
-                    commands.append(action.get_command_string())
+
+                    command_result = action.get_command_string()
+                    if isinstance(command_result, str):
+                        commands.append(command_result)
+                    else:  # Assuming it's a list of strings
+                        commands.extend(command_result)
+
                 self.processing.save_script(commands)
 
             except Exception as e:

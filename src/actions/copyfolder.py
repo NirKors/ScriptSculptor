@@ -8,6 +8,7 @@ class CopyFolder(CopyFiles):
 
     def __init__(self):
         super().__init__()
+        self.source_button = None
         self.copy_subdirectories = tk.BooleanVar()
         self.name = "Copy Folder"
 
@@ -21,7 +22,7 @@ class CopyFolder(CopyFiles):
         self.source_path.set(file_path)
 
     def get_command_string(self):
-        command = "/copy"
+        command = "copy"
 
         if self.suppress_overwrite.get():
             command += " /Y"

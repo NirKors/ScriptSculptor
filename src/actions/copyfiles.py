@@ -67,7 +67,7 @@ class CopyFiles(Action):
         return True
 
     def get_command_string(self):
-        command = "/copy"
+        command = "copy"
 
         if self.suppress_overwrite.get():
             command += " /Y"

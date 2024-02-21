@@ -31,4 +31,4 @@ class CancelShutdown(Action):
         return True
 
     def get_command_string(self):
-        return "/shutdown /a"
+        return "shutdown /a"

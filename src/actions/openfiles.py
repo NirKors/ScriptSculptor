@@ -52,7 +52,4 @@ class OpenFiles(Action):
 
         files = [file[1:-1] for file in files]
 
-        print(files)
-        print("\n".join(files))
-
-        return "test"
+        return [f"start \"\" \"{file}\"" for file in files]

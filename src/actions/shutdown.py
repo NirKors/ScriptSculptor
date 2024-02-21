@@ -86,4 +86,4 @@ class Shutdown(Action):
         if time_unit == "Days":
             delay_value *= 60 * 60 * 24
 
-        return f"/shutdown{force_value}{restart_value} /t {delay_value}"
+        return f"shutdown{force_value}{restart_value} /t {delay_value}"
