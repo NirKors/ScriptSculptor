@@ -10,6 +10,7 @@ class OpenFiles(Action):
         self.source_path = tk.StringVar()
         self.source_entry = None
         self.name = "Open Files"
+        self.source_button = None
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -22,14 +23,10 @@ class OpenFiles(Action):
 
         self.source_entry.pack(side=tk.LEFT, padx=(0, 5), expand=True, fill="x")
 
-        source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
-        source_button.pack(side=tk.LEFT, padx=(0, 5))
+        self.source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
+        self.source_button.pack(side=tk.LEFT, padx=(0, 5))
 
-        tooltip = """
-        This command is used to open files or directories from your computer.
-        """
-
-        self.explanatory_tooltip(tooltip)
+        self.create_tooltip()
 
     def select_source(self):
         file_path = filedialog.askopenfilenames()
@@ -53,3 +50,10 @@ class OpenFiles(Action):
         files = [file[1:-1] for file in files]
 
         return [f"start \"\" \"{file}\"" for file in files]
+
+    def create_tooltip(self):
+        tooltip = """
+        This command is used to open files or directories from your computer.
+        """
+
+        self.explanatory_tooltip(tooltip)

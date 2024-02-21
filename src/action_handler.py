@@ -9,6 +9,7 @@ from actions.system_information import SystemInformation
 from actions.copyfolder import CopyFolder
 from actions.deletefolder import DeleteFolder
 from actions.createfolder import CreateFolder
+from actions.openfolder import OpenFolder
 
 
 def create_action(selected_action, dropdown_options):
