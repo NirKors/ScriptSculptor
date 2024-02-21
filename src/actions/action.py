@@ -24,13 +24,14 @@ class Action:
     def get_command_string(self):
         raise NotImplementedError("Subclasses must implement get_command_string method")
 
-    def add_flag_options(self, text, variable):
+    def add_flag_options(self, text, variable, **kwargs):
         """
         Adds a checkbutton representing a flag option to the UI.
 
         Args:
             text (str): The text to display next to the checkbutton.
             variable (tk.BooleanVar): The BooleanVar object tracking the state of the checkbutton.
+            **kwargs: Additional keyword arguments to pass to the Checkbutton constructor.
 
         Returns:
             ttk.Checkbutton: The created checkbutton widget.
@@ -39,9 +40,9 @@ class Action:
             self.options_frame = ttk.Frame(self.parent_frame)
             self.options_frame.pack(side=tk.LEFT)
 
-        saved_var = ttk.Checkbutton(self.options_frame, text=text,
-                                    variable=variable)
+        saved_var = ttk.Checkbutton(self.options_frame, text=text, variable=variable, **kwargs)
         saved_var.pack(anchor=tk.NW)
+        return saved_var
 
     def explanatory_tooltip(self, text):
         # Create the tooltip frame
