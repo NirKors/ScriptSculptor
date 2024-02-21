@@ -9,6 +9,7 @@ class CopyFolder(CopyFiles):
     def __init__(self):
         super().__init__()
         self.copy_subdirectories = tk.BooleanVar()
+        self.name = "Copy Folder"
 
     def build_ui(self):
         super().build_ui()

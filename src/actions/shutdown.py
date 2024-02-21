@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from .action import Action, warn
+from .action import Action
 
 
 class Shutdown(Action):
@@ -14,6 +14,7 @@ class Shutdown(Action):
 
         self.time_unit.set('Seconds')
         self.delay.set('0')
+        self.name = "Shutdown"
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -68,9 +69,8 @@ class Shutdown(Action):
 
     def check_for_warnings(self):
         if self.force.get():
-            message = "Warning: Selecting 'Suppress Overwrite' will automatically replace existing files in the " \
-                      "destination folder. Ensure you intended to overwrite these files before proceeding. "
-            return warn(message)
+            message = "Forcing your computer to shut down can corrupt open files and unsaved work."
+            return self.warn(message)
         return True
 
     def get_command_string(self):

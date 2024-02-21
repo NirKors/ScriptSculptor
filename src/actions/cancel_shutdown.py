@@ -4,6 +4,7 @@ from .action import Action
 class CancelShutdown(Action):
     def __init__(self):
         super().__init__()
+        self.name = "Cancel Shutdown"
 
     def build_ui(self):
         tooltip = """

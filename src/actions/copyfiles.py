@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, ttk
 
-from .action import Action, warn
+from .action import Action
 
 
 class CopyFiles(Action):
@@ -13,6 +13,7 @@ class CopyFiles(Action):
         self.suppress_overwrite = tk.BooleanVar()
         self.copy_attributes = tk.BooleanVar()
         self.checkbox_frame = None
+        self.name = "Copy Files"
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -64,9 +65,9 @@ class CopyFiles(Action):
 
     def check_for_warnings(self):
         if self.suppress_overwrite.get():
-            message = "Warning: Selecting 'Suppress Overwrite' will automatically replace existing files in the " \
+            message = "Selecting 'Suppress Overwrite' will automatically replace existing files in the " \
                       "destination folder. Ensure you intended to overwrite these files before proceeding. "
-            return warn(message)
+            return self.warn(message)
         return True
 
     def get_command_string(self):

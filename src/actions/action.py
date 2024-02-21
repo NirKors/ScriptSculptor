@@ -2,8 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 
-def warn(message):
-    return messagebox.askokcancel(title="Warning", message=message, icon=messagebox.WARNING)
+
 
 
 class Action:
@@ -36,6 +35,7 @@ class Action:
         Returns:
             ttk.Checkbutton: The created checkbutton widget.
         """
+
         if not self.options_frame:
             self.options_frame = ttk.Frame(self.parent_frame)
             self.options_frame.pack(side=tk.LEFT)
@@ -54,3 +54,6 @@ class Action:
                                   foreground="blue")  # Adjust font and color as needed
         tooltip_label.pack(expand=True, fill="both")  # Center the label within the frame
         self.ui_engine.create_tooltip(text, tooltip_frame)
+
+    def warn(self, message):
+        return messagebox.askokcancel(title=f"Warning - {self.name}", message=message, icon=messagebox.WARNING)

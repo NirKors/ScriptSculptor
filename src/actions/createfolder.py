@@ -13,8 +13,8 @@ class CreateFolder(Action):
         self.include_patterns = tk.StringVar()
         self.exclude_patterns = tk.StringVar()
         self.recursive = tk.BooleanVar()
-
         self.recursive.set(False)
+        self.name = "Create Folder"
 
     def build_ui(self):
         parent_frame = self.parent_frame

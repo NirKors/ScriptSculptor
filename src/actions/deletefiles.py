@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, ttk
 
-from .action import Action, warn
+from .action import Action
 
 
 class DeleteFiles(Action):
@@ -13,6 +13,7 @@ class DeleteFiles(Action):
         self.not_flag = tk.BooleanVar()
         self.read_only = tk.BooleanVar()
         self.hidden = tk.BooleanVar()
+        self.name = "Delete Files"
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -91,15 +92,15 @@ class DeleteFiles(Action):
 
     def check_for_warnings(self):
         if self.prompt_confirmation.get() == 2:
-            message = "Warning: Enabling `Quiet Mode` will suppress confirmation prompts and progress updates during " \
+            message = "Enabling `Quiet Mode` will suppress confirmation prompts and progress updates during " \
                       "deletions. Ensure absolute certainty before proceeding to avoid unintended data loss. "
-            if not warn(message):
+            if not self.warn(message):
                 return False
 
         if self.recursive.get():  # TODO: Test how it works in terms of selecting a file or selecting a folder.
-            message = "Warning: Enabling `Recursive` deletion permanently removes all files in the selected folder " \
+            message = "Enabling `Recursive` deletion permanently removes all files in the selected folder " \
                       "and the subfolders within the chosen path. Use with caution to avoid unintended data loss. "
-            if not warn(message):
+            if not self.warn(message):
                 return False
         return True
 
