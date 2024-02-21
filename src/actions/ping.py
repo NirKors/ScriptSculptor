@@ -26,8 +26,8 @@ class Ping(Action):
 
         source_label = ttk.Label(parent_frame, text="Number of echo requests:")
         source_label.pack(side=tk.LEFT, padx=(0, 5))
-        echo_spinbox = ttk.Spinbox(parent_frame, from_=1, to=9999999, textvariable=self.echo_count)
-        echo_spinbox.pack(side=tk.LEFT, padx=(0, 5), expand=True, fill="x")
+        echo_spinbox = ttk.Spinbox(parent_frame, from_=1, to=9999999, textvariable=self.echo_count, width=15)
+        echo_spinbox.pack(side=tk.LEFT, padx=(0, 5))
         self.add_flag_options("Continuous", self.continuous_flag,
                               command=lambda: self.checkbox_changed_entry(self.continuous_flag, echo_spinbox))
 

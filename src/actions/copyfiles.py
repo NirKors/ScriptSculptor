@@ -21,7 +21,7 @@ class CopyFiles(Action):
         source_label.pack(side=tk.LEFT, padx=(0, 5))
 
         source_entry = tk.Entry(parent_frame, textvariable=self.source_path)
-        source_entry.pack(side=tk.LEFT, padx=(0, 5))
+        source_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
         source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
         source_button.pack(side=tk.LEFT, padx=(0, 5))
@@ -30,7 +30,7 @@ class CopyFiles(Action):
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
 
         destination_entry = tk.Entry(parent_frame, textvariable=self.destination_path)
-        destination_entry.pack(side=tk.LEFT, padx=(0, 5))
+        destination_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
         folder_button = tk.Button(parent_frame, text="Select Folder", command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))

@@ -23,7 +23,7 @@ class DeleteFiles(Action):
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
 
         destination_entry = ttk.Entry(parent_frame, textvariable=self.destination_path)
-        destination_entry.pack(side=tk.LEFT, padx=(0, 5))
+        destination_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
         folder_button = tk.Button(parent_frame, text="Select Path", command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
