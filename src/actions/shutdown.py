@@ -9,11 +9,11 @@ class Shutdown(Action):
         super().__init__()
         self.restart = tk.BooleanVar()
         self.force = tk.BooleanVar()
-        self.delay = tk.StringVar()
+        self.delay = tk.IntVar()
         self.time_unit = tk.StringVar()
 
         self.time_unit.set('Seconds')
-        self.delay.set('0')
+        self.delay.set(0)
         self.name = "Shutdown"
 
     def build_ui(self):
@@ -22,7 +22,7 @@ class Shutdown(Action):
         time_label = ttk.Label(parent_frame, text="Time before shutdown:")
         time_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        time_entry = tk.Entry(parent_frame, textvariable=self.delay)
+        time_entry = ttk.Spinbox(parent_frame, textvariable=self.delay, from_=0, to=9999999)
         time_entry.pack(side=tk.LEFT, padx=(0, 5))
 
         time_unit_options = ['Seconds', 'Minutes', 'Hours', 'Days']
@@ -59,10 +59,10 @@ class Shutdown(Action):
     def check_for_errors(self):
         # Check if delay is a valid numerical value
         try:
-            if float(self.delay.get()) < 0:
+            if self.delay.get() < 0:
                 raise ValueError
 
-        except ValueError:
+        except:
             return "Invalid delay value. Please enter a non-negative numerical value."
 
         return None
