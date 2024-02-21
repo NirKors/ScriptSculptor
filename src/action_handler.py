@@ -2,7 +2,7 @@ from actions.cancel_shutdown import CancelShutdown
 from actions.copyfiles import CopyFiles
 from actions.deletefiles import DeleteFiles
 from actions.openfiles import OpenFiles
-from actions.ping_website import PingWebsite
+from actions.ping import Ping
 from actions.shutdown import Shutdown
 from actions.sleep import Sleep
 from actions.system_information import SystemInformation
