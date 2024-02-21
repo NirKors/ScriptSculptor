@@ -7,7 +7,6 @@ from .action import Action
 class CopyFiles(Action):
     def __init__(self):
         super().__init__()
-        self.source_button = None
         self.source_path = tk.StringVar()
         self.destination_path = tk.StringVar()
         self.suppress_overwrite = tk.BooleanVar()
@@ -26,7 +25,6 @@ class CopyFiles(Action):
 
         source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
         source_button.pack(side=tk.LEFT, padx=(0, 5))
-        self.source_button = source_button
 
         destination_label = ttk.Label(parent_frame, text="Destination Path:")
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
@@ -45,12 +43,10 @@ class CopyFiles(Action):
     def select_source(self):
         file_path = filedialog.askopenfilenames()
         self.source_path.set(file_path)
-        # Use the selected file path as needed
 
     def select_destination(self):
         folder_path = filedialog.askdirectory()
         self.destination_path.set(folder_path)
-        # Use the selected folder path as needed
 
     def check_for_errors(self):
         # Check if source and destination paths are provided
