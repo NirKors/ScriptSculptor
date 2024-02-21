@@ -33,25 +33,25 @@ class Shutdown(Action):
         self.add_flag_options("Force Shutdown", self.force)
 
         tooltip = """
-        This command shuts down your computer.
+This command shuts down your computer.
+
+Options:
+
+    - Force Shutdown: Terminates all running programs and processes immediately.
+      Use with caution, as unsaved data may be lost.
+    - Restart: Shuts down the computer and automatically restarts it.
+    - Log Off: Closes all open programs and user sessions, but keeps the computer running.
+
+Important Points:
+
+    - Save any unsaved work before proceeding, as this action cannot be undone.
+    - If you're not certain about shutting down, consider using the Log Off option instead.
+    - Force Shutdown should only be used as a last resort, as it can potentially lead to data corruption.
+
+Warning!
         
-        Options:
-        
-            - Force Shutdown: Terminates all running programs and processes immediately.
-              Use with caution, as unsaved data may be lost.
-            - Restart: Shuts down the computer and automatically restarts it.
-            - Log Off: Closes all open programs and user sessions, but keeps the computer running.
-        
-        Important Points:
-        
-            - Save any unsaved work before proceeding, as this action cannot be undone.
-            - If you're not certain about shutting down, consider using the Log Off option instead.
-            - Force Shutdown should only be used as a last resort, as it can potentially lead to data corruption.
-        
-        Warning!
-                
-            - Force Shutdown can cause data loss if unsaved files are open.
-            - Always attempt a normal shutdown or log off before resorting to Force Shutdown.
+    - Force Shutdown can cause data loss if unsaved files are open.
+    - Always attempt a normal shutdown or log off before resorting to Force Shutdown.
         """
 
         self.explanatory_tooltip(tooltip)

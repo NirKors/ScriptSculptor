@@ -41,21 +41,21 @@ class CopyFolder(CopyFiles):
 
     def create_tooltip(self):
         tooltip = """
-        Initiates a folder copy operation:
-        
-        Paths:
-        
-            - Source: Choose the folder to copy using the "Select Folder" button.
-            - Destination: Select the destination folder using the "Select Folder" button.
-        
-        Options:
-        
-            - Suppress Overwrite: Prevents overwriting existing files with the same name.
-            - Copy Subdirectories: Includes subfolders and their contents within the source folder.
-            - Copy Attributes: Copies additional file information like permissions and timestamps.
-        
-        Warning!
-        
-            - Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
-        """
+Initiates a folder copy operation:
+
+Paths:
+
+    - Source: Choose the folder to copy using the "Select Folder" button.
+    - Destination: Select the destination folder using the "Select Folder" button.
+
+Options:
+
+    - Suppress Overwrite: Prevents overwriting existing files with the same name.
+    - Copy Subdirectories: Includes subfolders and their contents within the source folder.
+    - Copy Attributes: Copies additional file information like permissions and timestamps.
+
+Warning!
+
+    - Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
+"""
         self.explanatory_tooltip(tooltip)

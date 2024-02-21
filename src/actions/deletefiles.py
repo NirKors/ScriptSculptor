@@ -51,30 +51,30 @@ class DeleteFiles(Action):
         self.prompt_confirmation.set(True)
 
         tooltip = """
-        This command is used to permanently delete files and directories from your computer.
-        
-        Options:    
-            
-            - `Prompt For Confirmation`: Prompts for confirmation before deleting each file.
-            - `Quiet Mode`: Deletes files silently without any prompts.
-            - `Recursive`: Recursively deletes files in the directory, and in subdirectories within the specified path.
-        
-        Important Points:
-        
-            - Double-check the files and paths you're targeting before deleting.
-            - Consider using the `/p` option for confirmation if unsure.
-        
-        Additional options available in this tool:
-        
-            - Not: Select files based on the "Not" attribute (opposite of selected attributes).
-            - Read Only: Include read-only files in the deletion.
-            - Hidden: Include hidden files in the deletion.
-        
-        Warning!
-        
-            - Using options like "Not", "Read Only", and "Hidden" can unintentionally target unintended files.
-              Be cautious and review your selections before executing the deletion.
-        """
+This command is used to permanently delete files and directories from your computer.
+
+Options:    
+    
+    - `Prompt For Confirmation`: Prompts for confirmation before deleting each file.
+    - `Quiet Mode`: Deletes files silently without any prompts.
+    - `Recursive`: Recursively deletes files in the directory, and in subdirectories within the specified path.
+
+Important Points:
+
+    - Double-check the files and paths you're targeting before deleting.
+    - Consider using the `/p` option for confirmation if unsure.
+
+Additional options available in this tool:
+
+    - Not: Select files based on the "Not" attribute (opposite of selected attributes).
+    - Read Only: Include read-only files in the deletion.
+    - Hidden: Include hidden files in the deletion.
+
+Warning!
+
+    - Using options like "Not", "Read Only", and "Hidden" can unintentionally target unintended files. Be cautious
+      and review your selections before executing the deletion.
+"""
 
         self.explanatory_tooltip(tooltip)
 

@@ -53,7 +53,7 @@ class OpenFiles(Action):
 
     def create_tooltip(self):
         tooltip = """
-        This command is used to open files or directories from your computer.
+This command is used to open files in your computer using the default program set in your computer.
         """
 
         self.explanatory_tooltip(tooltip)
