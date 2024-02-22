@@ -108,16 +108,13 @@ class UIEngine:
             self.selected_frame = None
         return
 
-    def create_new_frame(self):  # TODO: Split logic
-        # New frame using ttk.Frame with the specified style
+    def create_new_frame(self):
         newFrame = ttk.Frame(self.scriptFrame, style="script_frame.TFrame", borderwidth=15,
                              relief=self.processing.get_relief())
 
-        # ttk.Label for consistency
         label = ttk.Label(newFrame, text="Action:")
         label.pack(side=tk.LEFT)
 
-        # ttk.OptionMenu isn't available, keep tk.OptionMenu
         selected_action = tk.StringVar(newFrame)
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
@@ -125,16 +122,7 @@ class UIEngine:
                                         self.handle_action_selection(selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
 
-        # Arrow buttons using ttk.Button with the specified style
-        button_frame = ttk.Frame(newFrame, style="buttons_frame.TFrame", name="navigation_frame")
-        move_up_button = ttk.Button(button_frame, text="↑", style="buttons_frame.TButton",
-                                    command=lambda frame=newFrame: self.move_frame_up(frame), width=1)
-        move_up_button.pack(side=tk.TOP)
-        move_down_button = ttk.Button(button_frame, text="↓", style="buttons_frame.TButton",
-                                      command=lambda frame=newFrame: self.move_frame_down(frame), width=1)
-        move_down_button.pack(side=tk.TOP)
-        button_frame.pack(side=tk.RIGHT)
-        button_frame.widgetName = "nav_button_frame"
+        self.add_nav_buttons(newFrame)
 
         # Event binding remains the same
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
@@ -143,6 +131,19 @@ class UIEngine:
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
         self.handle_action_selection(self.dropdown_options[0], newFrame)
         self.frame_order.append(newFrame)
+
+    def add_nav_buttons(self, master_frame):
+        # Arrow buttons using ttk.Button with the specified style
+        button_frame = ttk.Frame(master_frame, style="buttons_frame.TFrame", name="navigation_frame")
+        move_up_button = ttk.Button(button_frame, text="↑", style="buttons_frame.TButton",
+                                    command=lambda frame=master_frame: self.move_frame_up(frame), width=1)
+        move_up_button.pack(side=tk.TOP)
+        move_down_button = ttk.Button(button_frame, text="↓", style="buttons_frame.TButton",
+                                      command=lambda frame=master_frame: self.move_frame_down(frame), width=1)
+        move_down_button.pack(side=tk.TOP)
+        button_frame.pack(side=tk.RIGHT)
+        button_frame.widgetName = "nav_button_frame"
+
 
     def move_frame_up(self, frame):
         # Check if the frame is already at the top
