@@ -24,7 +24,7 @@ class CopyFiles(Action):
         source_entry = tk.Entry(parent_frame, textvariable=self.source_path)
         source_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
-        self.source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
+        self.source_button = ttk.Button(parent_frame, style="frame.TButton", text="Select File(s)", command=self.select_source)
         self.source_button.pack(side=tk.LEFT, padx=(0, 5))
 
         destination_label = ttk.Label(parent_frame, text="Destination Path:")
@@ -33,7 +33,7 @@ class CopyFiles(Action):
         destination_entry = tk.Entry(parent_frame, textvariable=self.destination_path)
         destination_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
-        folder_button = tk.Button(parent_frame, text="Select Folder", command=self.select_destination)
+        folder_button = ttk.Button(parent_frame, style="frame.TButton", text="Select Folder", command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
         self.add_flag_options("Suppress Overwrite", self.suppress_overwrite)

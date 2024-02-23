@@ -66,7 +66,12 @@ class UIEngine:
         style.map("TButton",
                   background=[("active", colors["TButton_bg_active"]), ("!active", colors["TButton_bg_inactive"])],
                   foreground=[("active", colors["TButton_fg_active"]), ("!active", colors["TButton_fg_inactive"])])
-        
+
+        style.configure("frame.TButton")
+        style.map("frame.TButton",
+                  background=[("active", colors["script_frame.TButton_bg_active"]), ("!active", colors["script_frame.TButton_bg_inactive"])],
+                  foreground=[("active", colors["script_frame.TButton_fg_active"]), ("!active", colors["script_frame.TButton_fg_inactive"])])
+
     def _create_top_buttons_frame(self):
         """
         Creates and configures the frame containing buttons for adding, deleting, and changing frame styles.

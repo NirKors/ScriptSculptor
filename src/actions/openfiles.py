@@ -23,7 +23,7 @@ class OpenFiles(Action):
 
         self.source_entry.pack(side=tk.LEFT, padx=(0, 5), expand=True, fill="x")
 
-        self.source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
+        self.source_button = ttk.Button(parent_frame, style="frame.TButton", text="Select File(s)", command=self.select_source)
         self.source_button.pack(side=tk.LEFT, padx=(0, 5))
 
         self.create_tooltip()

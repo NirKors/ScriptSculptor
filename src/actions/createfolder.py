@@ -27,7 +27,8 @@ class CreateFolder(Action):
         path_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
         self.path_entry = path_entry
 
-        folder_button = tk.Button(parent_frame, text="Select Folder", command=self.select_destination)
+        folder_button = ttk.Button(parent_frame, style="frame.TButton",  text="Select Folder",
+                                   command=self.select_destination)
         folder_button.pack(side=tk.LEFT, padx=(0, 5))
 
         # Checkbox for recursive creation
