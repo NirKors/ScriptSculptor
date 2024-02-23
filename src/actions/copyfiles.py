@@ -21,7 +21,7 @@ class CopyFiles(Action):
         source_label = ttk.Label(parent_frame, text="Source Path:")
         source_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        source_entry = tk.Entry(parent_frame, textvariable=self.source_path)
+        source_entry = ttk.Entry(parent_frame, textvariable=self.source_path)
         source_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
         self.source_button = ttk.Button(parent_frame, style="frame.TButton", text="Select File(s)", command=self.select_source)
@@ -30,7 +30,7 @@ class CopyFiles(Action):
         destination_label = ttk.Label(parent_frame, text="Destination Path:")
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        destination_entry = tk.Entry(parent_frame, textvariable=self.destination_path)
+        destination_entry = ttk.Entry(parent_frame, textvariable=self.destination_path)
         destination_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
         folder_button = ttk.Button(parent_frame, style="frame.TButton", text="Select Folder", command=self.select_destination)

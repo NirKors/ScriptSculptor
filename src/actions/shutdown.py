@@ -26,7 +26,7 @@ class Shutdown(Action):
         time_entry.pack(side=tk.LEFT, padx=(0, 5))
 
         time_unit_options = ['Seconds', 'Minutes', 'Hours', 'Days']
-        time_unit_dropdown = tk.OptionMenu(parent_frame, self.time_unit, *time_unit_options)
+        time_unit_dropdown = ttk.OptionMenu(parent_frame, self.time_unit, *time_unit_options)
         time_unit_dropdown.pack(side=tk.LEFT, padx=(0, 5))
 
         self.add_flag_options("Restart", self.restart)
