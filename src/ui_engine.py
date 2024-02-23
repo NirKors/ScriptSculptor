@@ -19,7 +19,6 @@ class UIEngine:
             master: The root window of the Tkinter application.
             config_path: The path to the configuration directory.
         """
-
         self.master = master
         self.master.title("ScriptSculptor")
         self.master.configure(bg="black")
@@ -30,6 +29,7 @@ class UIEngine:
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
         config.read(f'{config_path}\\settings.ini')
         self.colors = config["colors"]
+        self.style()
 
         # Setup processing and frame order
         self.processing = Processing()
@@ -52,6 +52,21 @@ class UIEngine:
         # Initialize selected frame
         self.selected_frame = None
 
+    def style(self):
+        colors = self.colors
+        style = ttk.Style()
+
+        style.theme_use("default")
+        style.configure("buttons_frame.TFrame", padding=6, background=colors["buttons_frame"])
+        style.configure("background.TFrame", padding=6, background=colors["background"])
+        style.configure("script_frame.TFrame", padding=6, background=colors["script_frame"])
+        style.configure("selected_frame_highlight.TFrame", padding=6, background=colors["selected_frame_highlight"])
+        style.configure("TLabel", background=colors["labels"])
+
+        style.map("TButton",
+                  background=[("active", colors["TButton_bg_active"]), ("!active", colors["TButton_bg_inactive"])],
+                  foreground=[("active", colors["TButton_fg_active"]), ("!active", colors["TButton_fg_inactive"])])
+        
     def _create_top_buttons_frame(self):
         """
         Creates and configures the frame containing buttons for adding, deleting, and changing frame styles.
@@ -295,7 +310,8 @@ class UIEngine:
         self.selected_frame = frame
         frame.configure(style="selected_frame_highlight.TFrame")  # Highlight the selected frame
 
-    def create_tooltip(self, string, widget):
+    @staticmethod
+    def create_tooltip(string, widget):
         x_offset = -200
         ToolTip(widget, msg=string, delay=0.3, x_offset=x_offset)
 

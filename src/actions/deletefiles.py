@@ -97,7 +97,7 @@ Warning!
             if not self.warn(message):
                 return False
 
-        if self.recursive.get():  # TODO: Test how it works in terms of selecting a file or selecting a folder.
+        if self.recursive.get():
             message = "Enabling `Recursive` deletion permanently removes all files in the selected folder " \
                       "and the subfolders within the chosen path. Use with caution to avoid unintended data loss. "
             if not self.warn(message):
