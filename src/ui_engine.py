@@ -224,20 +224,33 @@ class UIEngine:
             child.bind("<Button-1>", lambda event, frame=widget: self.select_frame(frame))
             self.bind_children_click(child)
 
-    def check_for_errors(self, create_call=False):  # TODO: Split to processing
-        errors = []
+    def check_for_errors(self, create_call=False):
+        """
+        Check for errors in the script and provide appropriate user feedback.
+
+        Parameters:
+        - create_call (bool): A boolean flag indicating whether the method is called during script creation.
+
+        Returns:
+        - bool: True if no errors are found, False otherwise.
+
+        This method checks if there are any actions in the script. If none are found, a warning is displayed,
+        and the method returns False.
+
+        It then delegates the error checking to the `processing` module, collecting any errors encountered.
+        If errors are found, an error message displaying the details of each error is shown, and the method returns False.
+
+        If no errors are found, and the method is not called during script creation (`create_call` is False),
+        a confirmation dialog is presented to the user, asking if they want to proceed with script creation.
+        If the user chooses to proceed, the method calls the `create_script` method.
+        """
+        # Check if there are scripts at all:
         values = self.scriptFrame.children.values()
         if not values:
             messagebox.showwarning("Error Check", "No actions found.")
             return False
 
-        for frame in values:
-            check = frame.action.check_for_errors()
-            if check:
-                if check == 2:
-                    return False
-                else:
-                    errors.append(f"Action - {frame.action.name}\nError: {check}")
+        errors = self.processing.check_for_errors(values)
         if errors:
             error_message = "\n\n".join(errors)
             messagebox.showerror("Error Check", error_message)

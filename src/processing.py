@@ -29,6 +29,16 @@ class Processing:
         with open('config/settings.ini', 'w') as configfile:
             self.config.write(configfile)
 
+    @staticmethod
+    def check_for_errors(values):
+        errors = []
+        # Check if there are any errors
+        for frame in values:
+            check = frame.action.check_for_errors()
+            if check:
+                errors.append(f"Action - {frame.action.name}\nError: {check}")
+        return errors
+
     def save_script(self, commands):
 
         print("\n".join(commands))
