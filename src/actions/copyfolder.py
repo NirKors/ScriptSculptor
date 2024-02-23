@@ -8,7 +8,6 @@ class CopyFolder(CopyFiles):
 
     def __init__(self):
         super().__init__()
-        self.source_button = None
         self.copy_subdirectories = tk.BooleanVar()
         self.name = "Copy Folder"
 

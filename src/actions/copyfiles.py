@@ -13,6 +13,7 @@ class CopyFiles(Action):
         self.copy_attributes = tk.BooleanVar()
         self.checkbox_frame = None
         self.name = "Copy Files"
+        self.source_button = None
 
     def build_ui(self):
         parent_frame = self.parent_frame
@@ -23,8 +24,8 @@ class CopyFiles(Action):
         source_entry = tk.Entry(parent_frame, textvariable=self.source_path)
         source_entry.pack(side=tk.LEFT, padx=(0, 5), fill="x", expand=True)
 
-        source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
-        source_button.pack(side=tk.LEFT, padx=(0, 5))
+        self.source_button = tk.Button(parent_frame, text="Select File(s)", command=self.select_source)
+        self.source_button.pack(side=tk.LEFT, padx=(0, 5))
 
         destination_label = ttk.Label(parent_frame, text="Destination Path:")
         destination_label.pack(side=tk.LEFT, padx=(0, 5))
@@ -51,10 +52,6 @@ class CopyFiles(Action):
     def check_for_errors(self):
         # Check if source and destination paths are provided
         if not self.source_path.get() or not self.destination_path.get():
-            if type(self) == CopyFiles:
-                action_type = "File"
-            else:
-                action_type = "Folder"
             return "Source and destination paths are required."
 
         return None
