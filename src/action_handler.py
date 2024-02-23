@@ -4,7 +4,6 @@ from actions.deletefiles import DeleteFiles
 from actions.openfiles import OpenFiles
 from actions.ping import Ping
 from actions.shutdown import Shutdown
-from actions.sleep import Sleep
 from actions.system_information import SystemInformation
 from actions.copyfolder import CopyFolder
 from actions.deletefolder import DeleteFolder
