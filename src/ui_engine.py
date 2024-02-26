@@ -1,4 +1,5 @@
 # ui_engine.py
+import os
 import tkinter as tk
 import tkinter.ttk as ttk
 from configparser import ConfigParser
@@ -125,7 +126,11 @@ class UIEngine:
                                          command=lambda: self.check_for_errors())
         check_script_button.pack(side=tk.LEFT, padx=5)
 
-        create_script_button = ttk.Button(create_script_button_frame, text="Create Script",
+        create_script_button = ttk.Button(create_script_button_frame, text="Copy Script to Clipboard",
+                                          command=lambda: self.copy_clipboard())
+        create_script_button.pack(side=tk.LEFT, padx=5)
+
+        create_script_button = ttk.Button(create_script_button_frame, text="Create Script File",
                                           command=lambda: self.create_script())
         create_script_button.pack(side=tk.LEFT, padx=5)
 
@@ -291,7 +296,7 @@ class UIEngine:
                 self.create_script()
         return True
 
-    def create_script(self):
+    def create_script(self):  # TODO: Split to get_commands()
         if self.check_for_errors(True):
             try:
                 commands = []
@@ -332,6 +337,10 @@ class UIEngine:
     def create_tooltip(string, widget):
         x_offset = -200
         ToolTip(widget, msg=string, delay=0.3, x_offset=x_offset)
+
+    def copy_clipboard(self): # TODO
+        self.processing.copy_to_clipboard()
+        pass
 
 
 def print_info(master, depth=1):
