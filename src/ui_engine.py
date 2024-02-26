@@ -306,6 +306,9 @@ class UIEngine:
                         commands.extend(command_result)
 
                 self.processing.save_script(commands)
+                current_path = os.path.dirname(__file__)
+                messagebox.showinfo("Create Script", f"Script successfully created in '{current_path}'")
+
 
             except Exception as e:
                 messagebox.showerror("Error", str(e))

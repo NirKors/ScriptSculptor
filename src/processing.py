@@ -40,6 +40,18 @@ class Processing:
         return errors
 
     def save_script(self, commands):
+        """
+        Saves a list of script commands to a file.
 
-        print("\n".join(commands))
-        pass
+        Args:
+            commands (list): A list of strings representing the script commands.
+
+        Returns:
+            None
+
+        Raises:
+            Exception: If there is an error writing the file.
+        """
+
+        with open("script.bat", "w") as file:
+            file.writelines(command + "\n" for command in commands)
