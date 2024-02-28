@@ -1,5 +1,7 @@
 from configparser import ConfigParser
 
+import xerox
+
 
 class Processing:
     def __init__(self):
@@ -55,3 +57,8 @@ class Processing:
 
         with open("script.bat", "w") as file:
             file.writelines(command + "\n" for command in commands)
+
+    @staticmethod
+    def copy_to_clipboard(commands):
+        commands = "\n".join(commands)
+        xerox.copy(commands)

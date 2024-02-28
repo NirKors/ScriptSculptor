@@ -3,7 +3,7 @@ import os
 import tkinter as tk
 import tkinter.ttk as ttk
 from configparser import ConfigParser
-from tkinter import messagebox
+from tkinter import messagebox, font
 
 from tktooltip import ToolTip
 
@@ -68,8 +68,7 @@ class UIEngine:
         style.configure("TCombobox",
                         # selectbackground=colors["combobox_selectbackground"],
                         # fieldbackground=colors["combobox_fieldbackground"],
-                        foreground=colors["combobox_background"]
-                        )
+                        foreground=colors["combobox_background"])
         self.master.option_add("*TCombobox*Listbox*Background", colors["combobox_lb_bg"])
         self.master.option_add('*TCombobox*Listbox*Foreground', colors["combobox_lb_fg"])
 
@@ -126,9 +125,10 @@ class UIEngine:
                                          command=lambda: self.check_for_errors())
         check_script_button.pack(side=tk.LEFT, padx=5)
 
-        create_script_button = ttk.Button(create_script_button_frame, text="Copy Script to Clipboard",
-                                          command=lambda: self.copy_clipboard())
-        create_script_button.pack(side=tk.LEFT, padx=5)
+        copy_script_button = ttk.Button(create_script_button_frame, text="Copy Script to Clipboard",
+                                        command=lambda: self.create_script(True, copy_script_button), width=22)
+
+        copy_script_button.pack(side=tk.LEFT, padx=5)
 
         create_script_button = ttk.Button(create_script_button_frame, text="Create Script File",
                                           command=lambda: self.create_script())
@@ -154,8 +154,8 @@ class UIEngine:
         selected_action = tk.StringVar(newFrame)
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
-                                        command=lambda selected_action_value:
-                                        self.handle_action_selection(selected_action_value, newFrame))
+                                        command=lambda selected_action_value: self.handle_action_selection(
+                                            selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
 
         self.add_nav_buttons(newFrame)
@@ -190,9 +190,7 @@ class UIEngine:
 
         # Swap the frame with the one above it in the order list
         self.frame_order[current_index], self.frame_order[current_index - 1] = (
-            self.frame_order[current_index - 1],
-            self.frame_order[current_index],
-        )
+            self.frame_order[current_index - 1], self.frame_order[current_index],)
 
         # Repack frames based on the updated order
         self.repack_frames()
@@ -207,9 +205,7 @@ class UIEngine:
 
         # Swap the frame with the one below it in the order list
         self.frame_order[current_index], self.frame_order[current_index + 1] = (
-            self.frame_order[current_index + 1],
-            self.frame_order[current_index],
-        )
+            self.frame_order[current_index + 1], self.frame_order[current_index],)
 
         # Repack frames based on the updated order
         self.repack_frames()
@@ -296,7 +292,7 @@ class UIEngine:
                 self.create_script()
         return True
 
-    def create_script(self):  # TODO: Split to get_commands()
+    def create_script(self, copy=False, copy_button=None):
         if self.check_for_errors(True):
             try:
                 commands = []
@@ -309,11 +305,14 @@ class UIEngine:
                         commands.append(command_result)
                     else:  # Assuming it's a list of strings
                         commands.extend(command_result)
-
-                self.processing.save_script(commands)
-                current_path = os.path.dirname(__file__)
-                messagebox.showinfo("Create Script", f"Script successfully created in '{current_path}'")
-
+                if not copy:
+                    self.processing.save_script(commands)
+                    current_path = os.path.dirname(__file__)
+                    messagebox.showinfo("Create Script", f"Script successfully created in '{current_path}'")
+                else:
+                    self.processing.copy_to_clipboard(commands)
+                    copy_button.config(text="Copied!", state="disabled", width=22)
+                    self.master.after(3000, lambda: copy_button.config(text="Copy Script to Clipboard", state="normal"))
 
             except Exception as e:
                 messagebox.showerror("Error", str(e))
@@ -337,16 +336,3 @@ class UIEngine:
     def create_tooltip(string, widget):
         x_offset = -200
         ToolTip(widget, msg=string, delay=0.3, x_offset=x_offset)
-
-    def copy_clipboard(self): # TODO
-        self.processing.copy_to_clipboard()
-        pass
-
-
-def print_info(master, depth=1):
-    for child, value in master.children.items():
-        print('\t' * depth + f" {child}")
-        if isinstance(value, tk.Frame):
-            print_info(value, depth + 1)
-
-    return
