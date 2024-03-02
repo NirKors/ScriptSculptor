@@ -8,14 +8,11 @@ class SystemInformation(Action):
 
 
     def build_ui(self):
-
-
-
         tooltip = """
-Displays detailed configuration information about a computer and its operating system, including operating
-system configuration, security information, product ID, and hardware properties (such as RAM, disk space,
-and network cards).
-"""
+        Displays detailed configuration information about a computer and its operating system, including operating
+        system configuration, security information, product ID, and hardware properties (such as RAM, disk space,
+        and network cards).
+        """
         self.explanatory_tooltip(tooltip)
 
     def check_for_warnings(self):
