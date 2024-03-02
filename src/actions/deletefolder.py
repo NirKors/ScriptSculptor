@@ -53,7 +53,8 @@ class DeleteFolder(Action):
         Warning!
             - Files and folders deleted with this tool are permanently removed from your device.
             - When you run in quiet mode, the entire directory tree is deleted without confirmation. Make sure that 
-                important files are moved or backed up before using this option. """
+                important files are moved or backed up before using this option. 
+        """
 
         self.explanatory_tooltip(tooltip)
 

@@ -1,5 +1,6 @@
 # ui_engine.py
 import os
+import textwrap
 import tkinter as tk
 import tkinter.ttk as ttk
 from configparser import ConfigParser
@@ -87,18 +88,34 @@ class UIEngine:
         """
         Creates and configures the frame containing buttons for adding, deleting, and changing frame styles.
         """
+        tooltip_delay = 0.7
 
         top_buttons_frame = ttk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
                                       style="background.TFrame", name="top_buttons_frame")
 
-        newFrameButton = ttk.Button(top_buttons_frame, text="Add New Frame", command=self.create_new_frame)
+        newFrameButton = ttk.Button(top_buttons_frame, text="New Action", command=self.create_new_frame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
+        tooltip = """
+        Click this button to add a new action frame.
+        Each frame represents a specific action to be executed.
+        Customize the settings for each action in its respective frame.
+        """
+        self.create_tooltip(tooltip, newFrameButton, delay=tooltip_delay)
 
-        deleteFrameButton = ttk.Button(top_buttons_frame, text="Delete Frame", command=self.delete_frame)
+        deleteFrameButton = ttk.Button(top_buttons_frame, text="Delete Action", command=self.delete_frame)
         deleteFrameButton.pack(side=tk.LEFT, padx=5)
+        tooltip = """
+        Click this button to delete the currently selected action frame.
+        """
+        self.create_tooltip(tooltip, deleteFrameButton, delay=tooltip_delay)
 
         reliefFrameButton = ttk.Button(top_buttons_frame, text="Change Style", command=self.change_style)
         reliefFrameButton.pack(side=tk.LEFT, padx=5)
+        tooltip = """
+        Click this button to change the visual style of the user interface.
+        The style alteration includes the appearance of frames and elements.
+        """
+        self.create_tooltip(tooltip, reliefFrameButton, delay=tooltip_delay)
 
         top_buttons_frame.pack(anchor="nw", pady=5, padx=5)
 
@@ -333,6 +350,9 @@ class UIEngine:
         frame.configure(style="selected_frame_highlight.TFrame")  # Highlight the selected frame
 
     @staticmethod
-    def create_tooltip(string, widget):
-        x_offset = -200
-        ToolTip(widget, msg=string, delay=0.3, x_offset=x_offset)
+    def create_tooltip(string, widget, **kwargs):
+        x_offset = -300
+        delay = kwargs.get('delay', 0.3)
+        tab_length = 4
+        tooltip = textwrap.dedent(string).expandtabs(tab_length).strip()
+        ToolTip(widget, msg=tooltip, delay=delay, x_offset=x_offset)

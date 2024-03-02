@@ -80,20 +80,20 @@ class CopyFiles(Action):
 
     def create_tooltip(self):
         tooltip = """
-Initiates a file copy operation:
-
-Paths:
-
-    - Source: Choose the file to copy using the "Select File(s)" button.
-    - Destination: Select the destination folder using the "Select Folder" button.
-
-Options:
-
-    - Suppress Overwrite: Prevents overwriting existing files with the same name.
-    - Copy Attributes: Copies additional file information like permissions and timestamps.
-
-Warning!
-
-    - Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
+        Initiates a file copy operation:
+        
+        Paths:
+        
+            - Source: Choose the file to copy using the "Select File(s)" button.
+            - Destination: Select the destination folder using the "Select Folder" button.
+        
+        Options:
+        
+            - Suppress Overwrite: Prevents overwriting existing files with the same name.
+            - Copy Attributes: Copies additional file information like permissions and timestamps.
+        
+        Warning!
+        
+            - Overwriting existing files without suppression can lead to data loss. Use this option cautiously.
         """
         self.explanatory_tooltip(tooltip)

@@ -19,7 +19,7 @@ class OpenFolder(OpenFiles):
 
     def create_tooltip(self):
         tooltip = """
-This command is used to open files or directories from your computer.
+        This command is used to open files or directories from your computer.
         """
 
         self.explanatory_tooltip(tooltip)

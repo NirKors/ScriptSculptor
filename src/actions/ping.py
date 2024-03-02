@@ -37,24 +37,23 @@ class Ping(Action):
         data_size_spinbox.pack(side=tk.LEFT, padx=(0, 5))
 
         tooltip = """
-This tool allows you to send ping requests to a specified host or IP address to test network 
-connectivity and measure response times. 
-
-Options:
-
-    - Host / IP: Enter the hostname or IP address of the target device you want to ping.
-    - Number of echo requests: Specify the number of ping packets to send (typically between 1 and 10).
-    - Continuous: Enable this option to send pings repeatedly until stopped manually using `CTRL+C`.
-    - Data size(b): Define the size of the data payload included in each ping packet. Valid values range from
-      1 byte to 65500 bytes.
-
-Additional Notes:
-
-    - For basic connectivity testing, using 4 echo requests with the default data size is sufficient.
-    - Larger data sizes can provide more accurate measurements of network bandwidth and performance, but might take
-      longer to complete.
-
-"""
+        This tool allows you to send ping requests to a specified host or IP address to test network 
+        connectivity and measure response times. 
+        
+        Options:
+        
+            - Host / IP: Enter the hostname or IP address of the target device you want to ping.
+            - Number of echo requests: Specify the number of ping packets to send (typically between 1 and 10).
+            - Continuous: Enable this option to send pings repeatedly until stopped manually using `CTRL+C`.
+            - Data size(b): Define the size of the data payload included in each ping packet. Valid values range from
+              1 byte to 65500 bytes.
+        
+        Additional Notes:
+        
+            - For basic connectivity testing, using 4 echo requests with the default data size is sufficient.
+            - Larger data sizes can provide more accurate measurements of network bandwidth and performance, but might take
+              longer to complete.
+        """
         self.explanatory_tooltip(tooltip)
 
     def checkbox_changed_entry(self, flag, entry):

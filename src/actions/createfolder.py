@@ -35,10 +35,10 @@ class CreateFolder(Action):
         self.add_flag_options("Recursive", self.recursive)
 
         tooltip = """
-Creates folders based on the specified path and options:
-
-  - Folder Path: Enter the desired location for the new folder(s).
-  - Recursive: Check this box to create the folder structure recursively if needed.
+        Creates folders based on the specified path and options:
+        
+          - Folder Path: Enter the desired location for the new folder(s).
+          - Recursive: Check this box to create the folder structure recursively if needed.
         """
 
         self.explanatory_tooltip(tooltip)
