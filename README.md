@@ -2,6 +2,8 @@
 
 ScriptSculptor is a powerful and intuitive tool designed to simplify the automation and management of batch scripts. Developed as a solo project, it envisions evolving into a comprehensive solution for users seeking seamless script creation through a user-friendly graphical interface.
 
+Currently under development.
+
 ## Features
 
 - **Script Automation:** Effortlessly create and manage complex batch scripts with a visually guided interface.
