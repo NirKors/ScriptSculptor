@@ -1,25 +1,18 @@
 # ScriptSculptor
 
-ScriptSculptor is a solo project envisioned to evolve into a comprehensive tool for automating and managing batch scripts through an intuitive graphical user interface.
+ScriptSculptor is a powerful and intuitive tool designed to simplify the automation and management of batch scripts. Developed as a solo project, it envisions evolving into a comprehensive solution for users seeking seamless script creation through a user-friendly graphical interface.
 
-## Overview
+## Features
 
-ScriptSculptor is currently in the pre-alpha phase, laying the foundation for a feature-rich application. It aspires to become a go-to solution for users seeking seamless automation of complex tasks through visually guided script creation.
-
-## Future Goals
-
-- **Script Automation:** Empower users to create and manage complex batch scripts effortlessly.
-- **Enhanced Script Actions:** Include a variety of script actions, from system-level commands to file operations.
-- **Script Scheduling:** Introduce scheduling options for running scripts at specified times or intervals.
-- **Script Libraries:** Enable users to create and share script libraries for enhanced collaboration.
-- **User-Friendly Interface:** Continuously refine the interface for an even more intuitive and user-friendly experience.
+- **Script Automation:** Effortlessly create and manage complex batch scripts with a visually guided interface.
+- **Intuitive User Interface:** Continuously refined for a smooth and user-friendly experience.
 
 ## Issues and Feedback
 
-If you encounter any issues or have feedback, please [create a new issue](https://github.com/NirKors/ScriptSculptor/issues).
+If you encounter any issues or have feedback, I welcome you to [create a new issue](https://github.com/NirKors/ScriptSculptor/issues). Your input is valuable in enhancing the tool's functionality and user experience.
 
 ## Acknowledgments
 
-- Thanks to the open-source community for various contributions and inspirations.
-- Special thanks to [tkinter](https://docs.python.org/3/library/tkinter.html) for the GUI toolkit.
+Special thanks to the open-source community for their contributions and inspiration. I also express gratitude to [tkinter](https://docs.python.org/3/library/tkinter.html) for providing a powerful GUI toolkit.
 
+Feel free to reach out for bug reports, or feature requests.
