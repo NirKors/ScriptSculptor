@@ -87,14 +87,6 @@ class UIEngine:
         """
         self.create_tooltip(tooltip, deleteFrameButton, delay=tooltip_delay)
 
-        reliefFrameButton = ttk.Button(top_buttons_frame, text="Change Style", command=self.change_style)
-        reliefFrameButton.pack(side=tk.LEFT, padx=5)
-        tooltip = """
-        Click this button to change the visual style of the user interface.
-        The style alteration includes the appearance of frames and elements.
-        """
-        self.create_tooltip(tooltip, reliefFrameButton, delay=tooltip_delay)
-
         top_buttons_frame.pack(anchor="nw", pady=5, padx=5)
 
     def _create_script_frame(self):
