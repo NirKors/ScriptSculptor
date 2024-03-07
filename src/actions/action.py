@@ -114,7 +114,7 @@ class Action:
 
         # Add a question mark label
         tooltip_label = ttk.Label(tooltip_frame, text="?", font=("Arial", 15),
-                                  foreground="blue")  # Adjust font and color as needed
+                                  foreground="white")  # TODO: Add style instead
         tooltip_label.pack(expand=True, fill="both")  # Center the label within the frame
         self.ui_engine.create_tooltip(text, tooltip_frame)
 
