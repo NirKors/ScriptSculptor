@@ -6,6 +6,7 @@ import tkinter.ttk as ttk
 from configparser import ConfigParser
 from tkinter import messagebox, font
 
+import sv_ttk
 from tktooltip import ToolTip
 
 import action_handler
@@ -55,34 +56,7 @@ class UIEngine:
         self.selected_frame = None
 
     def style(self):
-        colors = self.colors
-        style = ttk.Style()
-
-        style.theme_use("default")
-        style.configure("buttons_frame.TFrame", padding=6, background=colors["buttons_frame"])
-        style.configure("background.TFrame", padding=6, background=colors["background"])
-        style.configure("script_frame.TFrame", padding=6, background=colors["script_frame"])
-        style.configure("selected_frame_highlight.TFrame", padding=6, background=colors["selected_frame_highlight"])
-        style.configure("TLabel", background=colors["labels"])
-        style.configure("TRadiobutton", background=colors["radio_button"])
-
-        style.configure("TCombobox",
-                        # selectbackground=colors["combobox_selectbackground"],
-                        # fieldbackground=colors["combobox_fieldbackground"],
-                        foreground=colors["combobox_background"])
-        self.master.option_add("*TCombobox*Listbox*Background", colors["combobox_lb_bg"])
-        self.master.option_add('*TCombobox*Listbox*Foreground', colors["combobox_lb_fg"])
-
-        style.map("TButton",
-                  background=[("active", colors["TButton_bg_active"]), ("!active", colors["TButton_bg_inactive"])],
-                  foreground=[("active", colors["TButton_fg_active"]), ("!active", colors["TButton_fg_inactive"])])
-
-        style.configure("frame.TButton")
-        style.map("frame.TButton",
-                  background=[("active", colors["script_frame.TButton_bg_active"]),
-                              ("!active", colors["script_frame.TButton_bg_inactive"])],
-                  foreground=[("active", colors["script_frame.TButton_fg_active"]),
-                              ("!active", colors["script_frame.TButton_fg_inactive"])])
+        sv_ttk.set_theme("dark")
 
     def _create_top_buttons_frame(self):
         """
