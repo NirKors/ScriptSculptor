@@ -32,7 +32,6 @@ class UIEngine:
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
         config.read(f'{config_path}\\settings.ini')
         self.colors = config["colors"]
-        self.style()
 
         # Setup processing and frame order
         self.processing = Processing()
@@ -54,9 +53,14 @@ class UIEngine:
 
         # Initialize selected frame
         self.selected_frame = None
+        sv_ttk.set_theme("dark")
+        self.style()
+
 
     def style(self):
-        sv_ttk.set_theme("dark")
+        colors = self.colors
+        style = ttk.Style()
+        style.configure("selected_frame_highlight.TFrame", padding=6, background=colors["selected_frame_highlight"])
 
     def _create_top_buttons_frame(self):
         """
