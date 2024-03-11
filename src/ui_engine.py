@@ -11,7 +11,7 @@ from tktooltip import ToolTip
 
 import action_handler
 from processing import Processing
-
+from style import Style
 
 class UIEngine:
     def __init__(self, master, config_path):
@@ -25,13 +25,12 @@ class UIEngine:
         self.master = master
         self.master.title("ScriptSculptor")
         self.master.configure(bg="black")
+        self.style = Style(config_path)
 
         # Read configuration files
         config = ConfigParser()
         config.read(f'{config_path}\\configuration.ini')
         self.dropdown_options = config.get('options', 'dropdown_options').split(', ')
-        config.read(f'{config_path}\\settings.ini')
-        self.colors = config["colors"]
 
         # Setup processing and frame order
         self.processing = Processing()
@@ -53,8 +52,8 @@ class UIEngine:
 
         # Initialize selected frame
         self.selected_frame = None
-        sv_ttk.set_theme("dark")
-        self.style()
+
+
 
     def style(self):  # TODO: (in a different branch) Create colors for active and not active for frame selection
         colors = self.colors
@@ -331,17 +330,24 @@ class UIEngine:
 
     def select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
+
+        # Ignore already selected or nav buttons
         if frame == self.selected_frame or frame.widgetName == "nav_button_frame":
             return
+
+        # If an element inside was clicked, get the parent frame
         if frame.master != self.scriptFrame:
             self.select_frame(frame.master)
             return
 
+        # If the selected already exists, return it to the default
         if self.selected_frame:
-            self.selected_frame.configure(style="script_frame.TFrame")  # Reset the previously selected frame color
+            self.style.toggle_highlight(self.selected_frame, False)
 
+        self.style.toggle_highlight(frame, True)
         self.selected_frame = frame
-        frame.configure(style="selected_frame_highlight.TFrame")  # Highlight the selected frame
+
+
 
     @staticmethod
     def create_tooltip(string, widget, **kwargs):
