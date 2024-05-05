@@ -61,7 +61,6 @@ class Shutdown(Action):
         try:
             if self.delay.get() < 0:
                 raise ValueError
-
         except:
             return "Invalid delay value. Please enter a non-negative numerical value."
 

@@ -1,22 +1,16 @@
 import tkinter as tk
-from configparser import ConfigParser
-from tkinter import ttk
-
+import os
 from ui_engine import UIEngine
 
 
 def main():
-
     root = tk.Tk()
+    script_path = os.path.dirname(__file__)
+    script_dir, _ = os.path.split(script_path)
+    config_dir = os.path.join(script_dir, "config")
 
-    config_path = "C:\\Users\\nirko\\PycharmProjects\\ScriptSculptor\\config"
-    config_path = "C:\\Users\\Nir\\PycharmProjects\\ScriptSculptor\\config"
-
-    app = UIEngine(root, config_path)
-
+    UIEngine(root, config_dir)
     root.mainloop()
-
-
 
 
 if __name__ == "__main__":

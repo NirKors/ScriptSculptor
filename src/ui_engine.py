@@ -167,8 +167,8 @@ class UIEngine:
         selected_action = tk.StringVar(newFrame)
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = ttk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
-                                        command=lambda selected_action_value: self.handle_action_selection(
-                                            selected_action_value, newFrame))
+                                         command=lambda selected_action_value: self.handle_action_selection(
+                                             selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
 
         self.add_nav_buttons(newFrame)
@@ -319,7 +319,7 @@ class UIEngine:
                     else:  # Assuming it's a list of strings
                         commands.extend(command_result)
                 if not copy:
-                    self.processing.save_script(commands)
+                    save_script(commands)
                     current_path = os.path.dirname(__file__)
                     messagebox.showinfo("Create Script", f"Script successfully created in '{current_path}'")
                 else:

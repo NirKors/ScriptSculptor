@@ -2,9 +2,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 
-
-
-
 class Action:
     def __init__(self):
         self.ui_engine = None
