@@ -34,7 +34,7 @@ class DeleteFiles(Action):
                                  value=1)
         prompt.pack(anchor=tk.NW)
         silent = ttk.Radiobutton(radio_frame, text="Quiet Mode", variable=self.prompt_confirmation, value=2)
-        silent.pack(anchor=tk.NW)
+        silent.pack(anchor=tk.NW, fill="both")
 
         self.add_flag_options("Recursive", self.recursive)
 

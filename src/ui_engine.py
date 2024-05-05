@@ -56,7 +56,7 @@ class UIEngine:
         sv_ttk.set_theme("dark")
         self.style()
 
-    def style(self):  # TODO: (in a different branch) Create colors for active and not active for frame selection
+    def style(self):
         colors = self.colors
         style = ttk.Style()
 
@@ -67,6 +67,8 @@ class UIEngine:
         style.configure("selected_frame_highlight.TFrame", padding=6, background=colors["selected_frame_highlight"])
         style.configure("TLabel", background=colors["labels"])
         style.configure("TRadiobutton", background=colors["radio_button"])
+        style.configure("QuestionMark.TLabel", background=colors["question_mark_bg"],
+                        foreground=colors["question_mark_fg"])
 
         style.configure("TCombobox",
                         # selectbackground=colors["combobox_selectbackground"],
@@ -164,7 +166,7 @@ class UIEngine:
 
         selected_action = tk.StringVar(newFrame)
         selected_action.set(self.dropdown_options[0])  # Set default option
-        action_dropdown = tk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
+        action_dropdown = ttk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
                                         command=lambda selected_action_value: self.handle_action_selection(
                                             selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
