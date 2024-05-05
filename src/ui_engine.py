@@ -94,7 +94,7 @@ class UIEngine:
         """
         tooltip_delay = 0.7
 
-        top_buttons_frame = ttk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
+        top_buttons_frame = ttk.Frame(self.master, borderwidth=0, relief=self.processing.get_relief(),
                                       style="background.TFrame", name="top_buttons_frame")
 
         newFrameButton = ttk.Button(top_buttons_frame, text="New Action", command=self.create_new_frame)
@@ -131,7 +131,7 @@ class UIEngine:
         Creates and configures the frame containing buttons for checking errors and creating the script.
         """
 
-        create_script_button_frame = ttk.Frame(self.master, borderwidth=2, relief=self.processing.get_relief(),
+        create_script_button_frame = ttk.Frame(self.master, borderwidth=0, relief=self.processing.get_relief(),
                                                style="background.TFrame", name="create_button_frame")
 
         check_script_button = ttk.Button(create_script_button_frame, text="Check For Errors",
