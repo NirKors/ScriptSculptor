@@ -347,7 +347,7 @@ class UIEngine:
                     else:  # Assuming it's a list of strings
                         commands.extend(command_result)
                 if not copy:
-                    save_script(commands)
+                    self.processing.save_script(commands)
                     current_path = os.path.dirname(__file__)
                     messagebox.showinfo("Create Script", f"Script successfully created in '{current_path}'")
                 else:
