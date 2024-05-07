@@ -198,7 +198,6 @@ class UIEngine:
 
         self.add_nav_buttons(newFrame)
 
-        # Event binding remains the same
         newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
 
         # Pack and handle action selection
