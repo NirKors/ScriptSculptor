@@ -57,6 +57,12 @@ class UIEngine:
         self.style()
 
     def style(self):
+        """
+        Configures the style of various UI elements in the application.
+
+        This function uses the `ttk.Style` class to customize the appearance of frames, buttons, labels, and other widgets.
+        It leverages a color dictionary (`self.colors`) to define consistent color schemes throughout the UI.
+        """
         colors = self.colors
         style = ttk.Style()
 
@@ -159,6 +165,24 @@ class UIEngine:
         return
 
     def create_new_frame(self):
+        """
+        Creates a new frame within the script frame and populates it with UI elements.
+
+        This function generates a new ttk.Frame instance with a predefined style ("script_frame.TFrame"), sets border width,
+        and adjusts relief based on the `self.processing.get_relief()` method.
+
+        It then adds the following UI elements to the new frame:
+
+        - Label: A label displaying "Action:".
+        - OptionMenu: A dropdown menu populated with options from the `self.dropdown_options` list. It utilizes a `tk.StringVar`
+          to store the selected option and calls `self.handle_action_selection` when the selection changes.
+        - Navigation buttons: These buttons are added using the `self.add_nav_buttons` method (implementation not shown).
+
+        Finally, the function binds a click event to the new frame, triggering the `self.select_frame` method with the frame as an argument.
+        The new frame is packed with padding, fills horizontally, and is anchored to the north.
+
+        Additionally, it calls `self.handle_action_selection` with the default option and appends the newly created frame to the `self.frame_order` list.
+        """
         newFrame = ttk.Frame(self.scriptFrame, style="script_frame.TFrame", borderwidth=15,
                              relief=self.processing.get_relief())
 
@@ -183,6 +207,9 @@ class UIEngine:
         self.frame_order.append(newFrame)
 
     def add_nav_buttons(self, master_frame):
+        """
+        Creates a frame containing up and down arrow buttons for navigation within the master frame.
+        """
         # Arrow buttons using ttk.Button with the specified style
         button_frame = ttk.Frame(master_frame, style="buttons_frame.TFrame", name="navigation_frame")
         move_up_button = ttk.Button(button_frame, text="↑", style="buttons_frame.TButton",
@@ -353,3 +380,4 @@ class UIEngine:
         tab_length = 4
         tooltip = textwrap.dedent(string).expandtabs(tab_length).strip()
         ToolTip(widget, msg=tooltip, delay=delay, x_offset=x_offset)
+
