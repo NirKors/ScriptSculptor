@@ -4,9 +4,11 @@ import xerox
 
 
 class Processing:
-    def __init__(self):
+    def __init__(self, config_path):
         self.config = ConfigParser()
-        self.config.read('config/settings.ini')
+        self.config_path = config_path
+
+        self.config.read(f'{self.config_path}\\settings.ini')
         self.reliefs = self.config.get('styles', 'relief').split(', ')
 
     def cycle_relief(self):
@@ -28,7 +30,7 @@ class Processing:
         return self.reliefs[relief_num]
 
     def save_settings(self):
-        with open('config/settings.ini', 'w') as configfile:
+        with open(f'{self.config_path}\\settings.ini', 'w') as configfile:
             self.config.write(configfile)
 
     @staticmethod

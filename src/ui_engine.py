@@ -34,7 +34,7 @@ class UIEngine:
         self.colors = config["colors"]
 
         # Setup processing and frame order
-        self.processing = Processing()
+        self.processing = Processing(config_path)
         self.frame_order = []
 
         # Calculate window dimensions and position
@@ -54,9 +54,17 @@ class UIEngine:
         # Initialize selected frame
         self.selected_frame = None
         sv_ttk.set_theme("dark")
-        self.style()
+        self._style()
 
-    def style(self):
+    @staticmethod
+    def create_tooltip(string, widget, **kwargs):
+        x_offset = -300
+        delay = kwargs.get('delay', 0.3)
+        tab_length = 4
+        tooltip = textwrap.dedent(string).expandtabs(tab_length).strip()
+        ToolTip(widget, msg=tooltip, delay=delay, x_offset=x_offset)
+
+    def _style(self):
         """
         Configures the style of various UI elements in the application.
 
@@ -104,7 +112,7 @@ class UIEngine:
         top_buttons_frame = ttk.Frame(self.master, borderwidth=0, relief=self.processing.get_relief(),
                                       style="background.TFrame", name="top_buttons_frame")
 
-        newFrameButton = ttk.Button(top_buttons_frame, text="New Action", command=self.create_new_frame)
+        newFrameButton = ttk.Button(top_buttons_frame, text="New Action", command=self._create_new_frame)
         newFrameButton.pack(side=tk.LEFT, padx=5)
         tooltip = """
         Click this button to add a new action frame.
@@ -146,12 +154,12 @@ class UIEngine:
         check_script_button.pack(side=tk.LEFT, padx=5)
 
         copy_script_button = ttk.Button(create_script_button_frame, text="Copy Script to Clipboard",
-                                        command=lambda: self.create_script(True, copy_script_button), width=22)
+                                        command=lambda: self._create_script(True, copy_script_button), width=22)
 
         copy_script_button.pack(side=tk.LEFT, padx=5)
 
         create_script_button = ttk.Button(create_script_button_frame, text="Create Script File",
-                                          command=lambda: self.create_script())
+                                          command=lambda: self._create_script())
         create_script_button.pack(side=tk.LEFT, padx=5)
 
         create_script_button_frame.pack(anchor="se")
@@ -164,7 +172,7 @@ class UIEngine:
             self.selected_frame = None
         return
 
-    def create_new_frame(self):
+    def _create_new_frame(self):
         """
         Creates a new frame within the script frame and populates it with UI elements.
 
@@ -192,36 +200,35 @@ class UIEngine:
         selected_action = tk.StringVar(newFrame)
         selected_action.set(self.dropdown_options[0])  # Set default option
         action_dropdown = ttk.OptionMenu(newFrame, selected_action, *self.dropdown_options,
-                                         command=lambda selected_action_value: self.handle_action_selection(
+                                         command=lambda selected_action_value: self._handle_action_selection(
                                              selected_action_value, newFrame))
         action_dropdown.pack(side=tk.LEFT, padx=5)
 
-        self.add_nav_buttons(newFrame)
+        self._add_nav_buttons(newFrame)
 
-        # Event binding remains the same
-        newFrame.bind("<Button-1>", lambda event, frame=newFrame: self.select_frame(frame))
+        newFrame.bind("<Button-1>", lambda event, frame=newFrame: self._select_frame(frame))
 
         # Pack and handle action selection
         newFrame.pack(pady=5, padx=5, fill="x", anchor='n')
-        self.handle_action_selection(self.dropdown_options[0], newFrame)
+        self._handle_action_selection(self.dropdown_options[0], newFrame)
         self.frame_order.append(newFrame)
 
-    def add_nav_buttons(self, master_frame):
+    def _add_nav_buttons(self, master_frame):
         """
         Creates a frame containing up and down arrow buttons for navigation within the master frame.
         """
         # Arrow buttons using ttk.Button with the specified style
         button_frame = ttk.Frame(master_frame, style="buttons_frame.TFrame", name="navigation_frame")
         move_up_button = ttk.Button(button_frame, text="↑", style="buttons_frame.TButton",
-                                    command=lambda frame=master_frame: self.move_frame_up(frame), width=1)
+                                    command=lambda frame=master_frame: self._move_frame_up(frame), width=1)
         move_up_button.pack(side=tk.TOP)
         move_down_button = ttk.Button(button_frame, text="↓", style="buttons_frame.TButton",
-                                      command=lambda frame=master_frame: self.move_frame_down(frame), width=1)
+                                      command=lambda frame=master_frame: self._move_frame_down(frame), width=1)
         move_down_button.pack(side=tk.TOP)
         button_frame.pack(side=tk.RIGHT)
         button_frame.widgetName = "nav_button_frame"
 
-    def move_frame_up(self, frame):
+    def _move_frame_up(self, frame):
         # Check if the frame is already at the top
         if frame not in self.frame_order or self.frame_order.index(frame) == 0:
             return
@@ -234,9 +241,9 @@ class UIEngine:
             self.frame_order[current_index - 1], self.frame_order[current_index],)
 
         # Repack frames based on the updated order
-        self.repack_frames()
+        self._repack_frames()
 
-    def move_frame_down(self, frame):
+    def _move_frame_down(self, frame):
         # Check if the frame is already at the bottom
         if frame not in self.frame_order or self.frame_order.index(frame) == len(self.frame_order) - 1:
             return
@@ -249,9 +256,9 @@ class UIEngine:
             self.frame_order[current_index + 1], self.frame_order[current_index],)
 
         # Repack frames based on the updated order
-        self.repack_frames()
+        self._repack_frames()
 
-    def repack_frames(self):
+    def _repack_frames(self):
         # Unpack all frames
         for frame in self.frame_order:
             frame.pack_forget()
@@ -260,7 +267,7 @@ class UIEngine:
         for frame in self.frame_order:
             frame.pack(pady=5, padx=5, fill="x", anchor='n')
 
-    def handle_action_selection(self, selected_action, master_frame):
+    def _handle_action_selection(self, selected_action, master_frame):
         # Destroy previous UI components
         action_handler.clear_frame(master_frame)
 
@@ -271,9 +278,9 @@ class UIEngine:
         action.build_ui()
         master_frame.action = action
 
-        self.bind_children_click(master_frame)
+        self._bind_children_click(master_frame)
 
-    def change_style(self, parent=None):
+    def _change_style(self, parent=None):
         if parent is None:
             parent = self.master
             relief = self.processing.cycle_relief()
@@ -286,54 +293,17 @@ class UIEngine:
 
         # Recursively apply relief to children frames
         for child in parent.winfo_children():
-            self.change_style(child)
+            self._change_style(child)
 
         return
 
-    def bind_children_click(self, widget):
+    def _bind_children_click(self, widget):
         # Method to bind the click event to all children of a widget
         for child in widget.winfo_children():
-            child.bind("<Button-1>", lambda event, frame=widget: self.select_frame(frame))
-            self.bind_children_click(child)
+            child.bind("<Button-1>", lambda event, frame=widget: self._select_frame(frame))
+            self._bind_children_click(child)
 
-    def check_for_errors(self, create_call=False):
-        """
-        Check for errors in the script and provide appropriate user feedback.
-
-        Parameters:
-        - create_call (bool): A boolean flag indicating whether the method is called during script creation.
-
-        Returns:
-        - bool: True if no errors are found, False otherwise.
-
-        This method checks if there are any actions in the script. If none are found, a warning is displayed,
-        and the method returns False.
-
-        It then delegates the error checking to the `processing` module, collecting any errors encountered.
-        If errors are found, an error message displaying the details of each error is shown, and the method returns False.
-
-        If no errors are found, and the method is not called during script creation (`create_call` is False),
-        a confirmation dialog is presented to the user, asking if they want to proceed with script creation.
-        If the user chooses to proceed, the method calls the `create_script` method.
-        """
-        # Check if there are scripts at all:
-        values = self.scriptFrame.children.values()
-        if not values:
-            messagebox.showwarning("Error Check", "No actions found.")
-            return False
-
-        errors = self.processing.check_for_errors(values)
-        if errors:
-            error_message = "\n\n".join(errors)
-            messagebox.showerror("Error Check", error_message)
-            return False
-        if not errors and not create_call:
-            response = messagebox.askquestion("Error Check", "No errors were found. Do you want to create the script?")
-            if response == "yes":
-                self.create_script()
-        return True
-
-    def create_script(self, copy=False, copy_button=None):
+    def _create_script(self, copy=False, copy_button=None):
         if self.check_for_errors(True):
             try:
                 commands = []
@@ -359,12 +329,12 @@ class UIEngine:
                 messagebox.showerror("Error", str(e))
         return
 
-    def select_frame(self, frame):
+    def _select_frame(self, frame):
         # Method to select a frame and highlight it with a different colored border
         if frame == self.selected_frame or frame.widgetName == "nav_button_frame":
             return
         if frame.master != self.scriptFrame:
-            self.select_frame(frame.master)
+            self._select_frame(frame.master)
             return
 
         if self.selected_frame:
@@ -373,11 +343,39 @@ class UIEngine:
         self.selected_frame = frame
         frame.configure(style="selected_frame_highlight.TFrame")  # Highlight the selected frame
 
-    @staticmethod
-    def create_tooltip(string, widget, **kwargs):
-        x_offset = -300
-        delay = kwargs.get('delay', 0.3)
-        tab_length = 4
-        tooltip = textwrap.dedent(string).expandtabs(tab_length).strip()
-        ToolTip(widget, msg=tooltip, delay=delay, x_offset=x_offset)
+    def check_for_errors(self, create_call=False):
+        """
+        Check for errors in the script and provide appropriate user feedback.
 
+        Parameters:
+        - create_call (bool): A boolean flag indicating whether the method is called during script creation.
+
+        Returns:
+        - bool: True if no errors are found, False otherwise.
+
+        This method checks if there are any actions in the script. If none are found, a warning is displayed,
+        and the method returns False.
+
+        It then delegates the error checking to the `processing` module, collecting any errors encountered.
+        If errors are found, an error message displaying the details of each error is shown, and the method returns False.
+
+        If no errors are found, and the method is not called during script creation (`create_call` is False),
+        a confirmation dialog is presented to the user, asking if they want to proceed with script creation.
+        If the user chooses to proceed, the method calls the `_create_script` method.
+        """
+        # Check if there are scripts at all:
+        values = self.scriptFrame.children.values()
+        if not values:
+            messagebox.showwarning("Error Check", "No actions found.")
+            return False
+
+        errors = self.processing.check_for_errors(values)
+        if errors:
+            error_message = "\n\n".join(errors)
+            messagebox.showerror("Error Check", error_message)
+            return False
+        if not errors and not create_call:
+            response = messagebox.askquestion("Error Check", "No errors were found. Do you want to create the script?")
+            if response == "yes":
+                self._create_script()
+        return True

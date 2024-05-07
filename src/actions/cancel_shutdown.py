@@ -7,7 +7,6 @@ class CancelShutdown(Action):
         self.name = "Cancel Shutdown"
 
     def build_ui(self):
-        # Set the tooltip text for your Cancel Shutdown action using this variable
         tooltip = """
         This command cancels a pending system shutdown. If your computer is scheduled to shut down automatically at a later
         time, running this command will prevent it from doing so. 
