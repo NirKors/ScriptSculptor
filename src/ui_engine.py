@@ -69,6 +69,7 @@ class UIEngine:
         style.configure("TRadiobutton", background=colors["radio_button"])
         style.configure("QuestionMark.TLabel", background=colors["question_mark_bg"],
                         foreground=colors["question_mark_fg"])
+        style.configure("TCheckbutton", background="white")
 
         style.configure("TCombobox",
                         # selectbackground=colors["combobox_selectbackground"],

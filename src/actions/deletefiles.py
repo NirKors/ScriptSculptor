@@ -42,11 +42,11 @@ class DeleteFiles(Action):
         file_options.pack(side=tk.LEFT, padx=5)
 
         checkbox_n = ttk.Checkbutton(file_options, text="Not", variable=self.not_flag)
-        checkbox_n.pack(side=tk.LEFT)
+        checkbox_n.pack(side=tk.LEFT, fill="both")
         checkbox_ro = ttk.Checkbutton(file_options, text="Read Only", variable=self.read_only)
-        checkbox_ro.pack(anchor=tk.NW)
+        checkbox_ro.pack(anchor=tk.NW, fill="both")
         checkbox_h = ttk.Checkbutton(file_options, text="Hidden", variable=self.hidden)
-        checkbox_h.pack(anchor=tk.NW)
+        checkbox_h.pack(anchor=tk.NW, fill="both")
 
         self.prompt_confirmation.set(True)
 
