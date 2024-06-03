@@ -61,7 +61,7 @@ class Action:
             NotImplementedError: If the method is not implemented in the subclass.
 
         """
-        raise NotImplementedError("Subclasses must implement build_ui method")
+        raise NotImplementedError("Subclasses must implement check_for_warnings method")
 
     def check_for_errors(self):
         """
