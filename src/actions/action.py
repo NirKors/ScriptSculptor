@@ -38,9 +38,9 @@ class Action:
             self.options_frame = ttk.Frame(self.parent_frame)
             self.options_frame.pack(side=tk.LEFT)
 
-        saved_var = ttk.Checkbutton(self.options_frame, text=text, variable=variable, **kwargs)
-        saved_var.pack(anchor=tk.NW, fill="both")
-        return saved_var
+        checkbutton = ttk.Checkbutton(self.options_frame, text=text, variable=variable, **kwargs)
+        checkbutton.pack(anchor=tk.NW, fill="both")
+        return checkbutton
 
     def check_for_warnings(self):
         """
