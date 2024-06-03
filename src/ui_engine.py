@@ -86,8 +86,6 @@ class UIEngine:
         style.configure("TCheckbutton", background="white")
 
         style.configure("TCombobox",
-                        # selectbackground=colors["combobox_selectbackground"],
-                        # fieldbackground=colors["combobox_fieldbackground"],
                         foreground=colors["combobox_background"])
         self.master.option_add("*TCombobox*Listbox*Background", colors["combobox_lb_bg"])
         self.master.option_add('*TCombobox*Listbox*Foreground', colors["combobox_lb_fg"])

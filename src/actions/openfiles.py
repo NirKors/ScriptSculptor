@@ -42,7 +42,6 @@ class OpenFiles(Action):
         return True
 
     def get_command_string(self):
-        print(self.source_path.get())
         files = self.source_path.get()[1:-1].split(', ')
         if len(files) == 1:
             files[0] = files[0][:-1]
